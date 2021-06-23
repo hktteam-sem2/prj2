@@ -7,22 +7,11 @@
       </div>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-          <select class="input-sm form-control w-sm inline v-middle">
-            <option value="0">Bulk action</option>
-            <option value="1">Delete selected</option>
-            <option value="2">Bulk edit</option>
-            <option value="3">Export</option>
-          </select>
-          <button class="btn btn-sm btn-default">Apply</button>
+
         </div>
         <div class="col-sm-4">
         </div>
         <div class="col-sm-3">
-          <div class="input-group">
-            <input type="text" class="input-sm form-control" placeholder="Search">
-            <span class="input-group-btn">
-              <button class="btn btn-sm btn-default" type="button">Go!</button>
-            </span>
           </div>
         </div>
       </div>
@@ -40,6 +29,7 @@
               <th>#</th>
               <th>Tên sản phẩm</th>
               <th>Giá sản phẩm</th>
+              <th>Số lượng</th>
               <th>Hình ảnh sản phẩm</th>
               <th>Danh mục sản phẩm</th>
               <th>Thương hiệu sản phẩm</th>
@@ -54,6 +44,7 @@
                 <td>{{ $all->product_id }}</td>
                 <td>{{ $all->product_name }}</td>
                 <td>{{ $all->product_price }}</td>
+                <td>{{ $all->product_quantity }}</td>
                 <td><img src="upload/product/{{ $all->product_image }}" height="100px" width="100px"></td>
                 <td>{{ $all->category_name }}</td>
                 <td>{{ $all->brand_name }}</td>

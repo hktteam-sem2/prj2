@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomeController extends Controller
 {
+
     public function index(){
          //banner
          $slider = DB::table('slider')->orderByDesc('slider_id')->where('slider_status','1')->take(4)->get();
