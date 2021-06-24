@@ -10,13 +10,13 @@ use App\Exports\ExcelExportSlider;
 use App\Imports\ExcelImportSlider;
 use Maatwebsite\Excel\Facades\Excel;
 use App\SliderModel;
-
+use Illuminate\Support\Facades\Auth;
 
 class SliderController extends Controller
 {
     //check xem admin co dang nhap hay ko
     public function CheckAdminLogin(){
-        $admin_id = session()->get('admin_id');
+        $admin_id = Auth::id('admin_id');
         if($admin_id==true){
             return redirect('/dashboard');
         }else{

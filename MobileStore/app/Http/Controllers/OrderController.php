@@ -237,6 +237,7 @@ class OrderController extends Controller
                     }
                     $ouput.='
                     <tr>
+                        <td>'.$ord->order_code.'</td>
                         <td>'.$ord->product_name.'</td>
                         <td>'.number_format($ord->product_price,0,',','.').' vnđ'.'</td>
                         <td>'.$ord->product_sales_quantity.'</td>

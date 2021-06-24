@@ -7,17 +7,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\CouponModel;
+use Illuminate\Support\Facades\Auth;
 
 class CouponController extends Controller
 {
     //***Coupon backend***
       //check xem admin co dang nhap hay ko
       public function CheckAdminLogin(){
-        $admin_id = session()->get('admin_id');
+        $admin_id = Auth::id();
         if($admin_id==true){
             return redirect('/dashboard');
         }else{
-            return redirect('/admin')->send();
+            return redirect('/login-auth')->send();
         }
     }
     //thêm mã giảm giá

@@ -23,7 +23,7 @@ class BrandProductsController extends Controller
 
     //thêm danh mục sản phẩm
     public function add_brandproducts(){
-        $this->CheckAdminLogin();
+        $this->AuthLogin();
         return view('admin.add_brandproducts');
     }
     public function postadd_brandproducts(Request $request){
@@ -39,7 +39,7 @@ class BrandProductsController extends Controller
 
      //hiển thị tất cả danh mục sản phẩm
      public function all_brandproducts(){
-        $this->CheckAdminLogin();
+        $this->AuthLogin();
         $allbrand = DB::table('brandproducts')->get();
         return view('admin.all_brandproducts')->with([
             'allbrand' => $allbrand

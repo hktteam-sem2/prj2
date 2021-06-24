@@ -49,17 +49,16 @@ Route::group(['middleware' => 'auth.roles'], function() {
 
 
 //Coupon -- backend
-Route::get('/add_coupon','CouponController@add_coupon');
+    Route::get('/add_coupon', 'CouponController@add_coupon');
 
-Route::post('/postadd_coupon','CouponController@postadd_coupon');
+    Route::post('/postadd_coupon', 'CouponController@postadd_coupon');
 
-Route::get('/all_coupon','CouponController@all_coupon');
+    Route::get('/all_coupon', 'CouponController@all_coupon');
 
-Route::get('/delete_coupon/{coupon_id}','CouponController@delete_coupon');
+    Route::get('/delete_coupon/{coupon_id}', 'CouponController@delete_coupon');
 
 //Coupon -- frontend
 Route::post('/check-coupon','CartController@check_coupon');
-
 Route::get('/unset-coupon','CartController@unset_coupon');
 
 
