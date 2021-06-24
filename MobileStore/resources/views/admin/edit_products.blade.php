@@ -30,6 +30,10 @@
                         <input type="text" class="form-control" name="product_price" value="{{ $edit->product_price }}">
                     </div>
                     <div class="form-group">
+                        <label>Số lượng</label>
+                        <input type="text" class="form-control" name="product_quantity" value="{{ $edit->product_quantity }}">
+                    </div>
+                    <div class="form-group">
                         <label>Hình Ảnh Sản Phẩm</label>
                         <input type="file" class="form-control" name="product_image">
                         <img src="/upload/product/{{ $edit->product_image }}" height="100px" width="100px">
@@ -39,8 +43,8 @@
                         <textarea style="resize: none" rows="5" class="form-control" name="product_desc">{{ $edit->product_desc }}</textarea>
                     </div>
                     <div class="form-group">
-                        <label>Nội dung</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_content">{{ $edit->product_speci }}</textarea>
+                        <label>Thông số kỹ thuật</label>
+                        <textarea style="resize: none" rows="5" class="form-control" name="product_speci">{{ $edit->product_speci }}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Danh Mục Sản Phẩm</label>

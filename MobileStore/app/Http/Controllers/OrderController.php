@@ -12,12 +12,76 @@ use App\Shipping;
 use App\Order;
 use App\Orderdetails;
 use App\CouponModel;
+use App\Product;
 
 use Barryvdh\DomPDF\PDF;
 session_start();
 
 class OrderController extends Controller
 {
+//quan ly so luong ban ton
+    // xu ly nut cap nhat
+    public function update_qty(Request $request){
+		$data = $request->all();
+		$order_details = OrderDetails::where('product_id',$data['order_product_id'])->where('order_code',$data['order_code'])->first();
+		$order_details->product_sales_quantity = $data['order_qty'];
+		$order_details->save();
+	}
+    //End xu ly nut cap nhat
+    public function update_order_qty(Request $request){
+        //update order
+        $data = $request->all();
+        $order = Order::find($data['order_id']);
+        $order->order_status = $data['order_status'];
+        $order->save();
+        if ($order->order_status==2) {
+            //them
+            // $total_order = 0;
+            // $sales = 0;
+            // $profit = 0;
+            // $quantity = 0;
+
+            foreach ($data['order_product_id'] as $key => $product_id) {
+                $product = Product::find($product_id);
+                $product_quantity = $product->product_quantity;
+                $product_sold = $product->product_sold;
+                //them
+                // $product_price = $product->product_price;
+                // $product_cost = $product->price_cost;
+                // $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+                foreach ($data['quantity'] as $key2 => $qty) {
+                    if ($key==$key2) {
+                        $pro_remain = $product_quantity - $qty;
+                        $product->product_quantity = $pro_remain;
+                        $product->product_sold = $product_sold + $qty;
+                        $product->save();
+                        //update doanh thu
+                        // $quantity+=$qty;
+                        // $total_order+=1;
+                        // $sales+=$product_price*$qty;
+                        // $profit = $sales - ($product_cost*$qty);
+                    }
+                }
+            }
+        }elseif($order->order_status!=2 && $order->order_status!=3){
+			foreach($data['order_product_id'] as $key => $product_id){
+
+				$product = Product::find($product_id);
+				$product_quantity = $product->product_quantity;
+				$product_sold = $product->product_sold;
+				foreach($data['quantity'] as $key2 => $qty){
+						if($key==$key2){
+								$pro_remain = $product_quantity + $qty;
+								$product->product_quantity = $pro_remain;
+								$product->product_sold = $product_sold - $qty;
+								$product->save();
+						}
+				}
+			}
+		}
+    }
+//End quan ly so luong ban ton
     //xem don hang
     public function order(){
         $order = Order::orderby('created_at', 'DESC')->get();
@@ -26,11 +90,12 @@ class OrderController extends Controller
 
     //xem chi tiet don hang
     public function order_details($order_code){
-        $order_detail = Orderdetails::where('order_code', $order_code)->get();
+        $order_detail = Orderdetails::with('product')->where('order_code', $order_code)->get();
         $order = Order::where('order_code', $order_code)->get();
         foreach($order as $key => $ord){
             $customer_id = $ord->customer_id;
             $shipping_id = $ord->shipping_id;
+            $order_status = $ord->order_status;
         }
         $customer = Customer::where('customer_id', $customer_id)->first();
         $shipping = Shipping::where('shipping_id', $shipping_id)->first();
@@ -49,12 +114,13 @@ class OrderController extends Controller
             $coupon_number = 0;
         }
 
-        return view('admin.order_detail')->with(compact('order_detail','customer','shipping','order_details','coupon_condition','coupon_number'));
+        return view('admin.order_detail')->with(compact('order_detail','customer','shipping','order_details','coupon_condition','coupon_number','order','order_status'));
     }
 
     //in don hang pdf
     public function print_order($check_code){
-        $pdf = App()->make('dompdf.wrapper');
+
+        $pdf = \App()->make('dompdf.wrapper');
         $pdf->loadHTML($this->print_order_convert($check_code));
         return $pdf->stream();
     }

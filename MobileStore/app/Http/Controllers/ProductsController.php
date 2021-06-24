@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Exports\ExcelExportProduct;
+use DateTime;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductsController extends Controller
@@ -31,10 +32,11 @@ class ProductsController extends Controller
         $data = array();
         $data['product_name'] = $request->product_name;
         $data['product_price'] = $request->product_price;
+        $data['product_quantity'] = $request->product_quantity;
         $data['product_image'] = $request->product_image;
         $data['product_desc'] = $request->product_desc;
         $data['product_status'] = $request->product_status;
-        $data['product_content'] = $request->product_content;
+        $data['product_speci'] = $request->product_speci;
         $data['category_id'] = $request->category;
         $data['brand_id'] = $request->brand;
         $image = $request->file('product_image');
@@ -96,8 +98,9 @@ class ProductsController extends Controller
         $data['category_id'] = $request->category;
         $data['brand_id'] = $request->brand;
         $data['product_price'] = $request->product_price;
+        $data['product_quantity'] = $request->product_quantity;
         $data['product_desc'] = $request->product_desc;
-        $data['product_content'] = $request->product_content;
+        $data['product_speci'] = $request->product_speci;
         $image = $request->file('product_image');
         if($image==true){
             $get_name_image = $image->getClientOriginalName();

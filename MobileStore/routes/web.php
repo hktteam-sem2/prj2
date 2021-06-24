@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu','HomeController@index');
 
+
 //danh muc san pham trang chu
 Route::get('/danh-muc-san-pham/{category_id}','CategoryProductsController@show_category_home');
 
@@ -132,11 +133,10 @@ Route::post('/confirm-order','CheckOutController@confirm_order');
 
 //order
 Route::get('/order', 'OrderController@order');
-
 Route::get('/order_details/{order_code}','OrderController@order_details');
-
 Route::get('/print_order/{check_code}', 'OrderController@print_order');
-
+Route::post('/update-order-qty','OrderController@update_order_qty');
+Route::post('/update-qty','OrderController@update_qty');
 //slider
 Route::get('/all_banner', 'SliderController@manage_banner');
 Route::get('/add_banner','SliderController@add_banner');

@@ -26,6 +26,10 @@
                         <input type="text" class="form-control" name="product_price">
                     </div>
                     <div class="form-group">
+                        <label>Số lượng</label>
+                        <input type="text" class="form-control" name="product_quantity">
+                    </div>
+                    <div class="form-group">
                         <label>Hình Ảnh Sản Phẩm</label>
                         <input type="file" class="form-control" name="product_image">
                     </div>
@@ -34,8 +38,8 @@
                         <textarea style="resize: none" rows="5" class="form-control" name="product_desc" placeholder="Desc Product"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Nội Dung</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_content" placeholder="Content Product"></textarea>
+                        <label>Thông số kỹ thuật</label>
+                        <textarea style="resize: none" rows="5" class="form-control" name="product_speci" placeholder="Content Product"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Danh Mục Sản Phẩm</label>
@@ -60,6 +64,10 @@
                             <option value="1">On</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <input type="hidden" name="created_at">
+                    </div>
+
                     <button type="submit" class="btn btn-info">Thêm</button>
                 </form>
             </div>
