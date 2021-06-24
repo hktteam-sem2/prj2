@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -11,12 +12,12 @@ class BrandProductsController extends Controller
 {
 
     //check xem admin co dang nhap hay ko
-    public function CheckAdminLogin(){
-        $admin_id = session()->get('admin_id');
-        if($admin_id==true){
-            return redirect('/dashboard');
+    public function AuthLogin(){
+        $admin_id =Auth::id();
+        if($admin_id){
+            return Redirect::to('dashboard');
         }else{
-            return redirect('/login-auth')->send();
+            return Redirect::to('login-auth')->send();
         }
     }
 

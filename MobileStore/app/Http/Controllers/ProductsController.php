@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Exports\ExcelExportProduct;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductsController extends Controller
 {
     //check xem admin co dang nhap hay ko
     public function CheckAdminLogin(){
-        $admin_id = session()->get('admin_id');
+        $admin_id = Auth::id();
         if($admin_id==true){
             return redirect('/dashboard');
         }else{
