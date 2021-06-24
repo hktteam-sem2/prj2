@@ -78,12 +78,12 @@
     </div>
     <div class="tab-content">
         <div class="tab-pane fade" id="details" >
-            <p>{{ $detail->product_desc }}</p>
+            <p>{!! $detail->product_desc !!}</p>
 
         </div>
 
         <div class="tab-pane fade" id="companyprofile" >
-            <p>{{ $detail->product_speci }}</p>
+            <p>{!! $detail->product_speci !!}</p>
         </div>
 
         <div class="tab-pane fade active in" id="reviews" >

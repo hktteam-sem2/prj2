@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <head>
-<title>Quản Lý Admin</title>
+<title>Đăng ký Authentication</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -23,33 +23,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <div class="log-w3">
-    <div class="w3layouts-main">
-        <h2>Đăng nhập</h2>
-        <?php
-        $message = Session::get('message');
-        if($message){
-            echo '<span class="text-alert">'.$message.'</span>';
-            Session::put('message',null);
-        }
-        ?>
-            <form action="{{URL::to('/admin-dashboard')}}" method="post">
-                {{ csrf_field() }}
-                @foreach($errors->all() as $val)
-                <ul>
-                    <li>{{$val}}</li>
-                </ul>
-                @endforeach
-                <input type="text"  class="ggg" name="admin_email" placeholder="Điền email" >
-                <input type="password" class="ggg" name="admin_password" placeholder="Điền password" >
-
-                <span><input type="checkbox" />Nhớ đăng nhập</span>
-                <h6><a href="#">Quên mật khẩu</a></h6>
-                    <div class="clearfix"></div>
-                    <input type="submit" value="Đăng nhập" name="login">
-            </form>
-            <a href="{{url('/register-auth')}}">Đăng ký Auth</a> |
-            <a href="{{url('/login-auth')}}">Đăng nhập Auth</a>
-    </div>
+<div class="w3layouts-main">
+	<h2>Đăng Ký Auth </h2>
+    <?php
+    $message = session()->get('message');
+    if($message){
+        echo '<span style="color: red">'.$message.'</span>';
+        session()->put('message', null);
+    }
+    ?>
+		<form action="/register" method="post">
+            @foreach($errors->all() as $val)
+			<ul>
+				<li>{{$val}}</li>
+			</ul>
+			@endforeach
+            @csrf
+            <input type="text" class="ggg" name="admin_name" placeholder="Name" >
+            <input type="phone" class="ggg" name="admin_phone" placeholder="Phone" >
+            <input type="email" class="ggg" name="admin_email" placeholder="E-mail" >
+			<input type="password" class="ggg" name="admin_password" placeholder="Password">
+            <input type="submit" value="Đăng ký" name="login">
+		</form>
+        <a href="{{url('/login-auth')}}">Đăng Nhập Auth</a>
+</div>
 </div>
 <script src="backend/js/bootstrap.js"></script>
 <script src="backend/js/jquery.dcjqaccordion.2.7.js"></script>

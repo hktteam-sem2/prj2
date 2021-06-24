@@ -54,18 +54,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <img alt="" src="{{ asset('backend/images/2.png') }}">
                 <span class="username">
                     <?php
-                        $name = session()->get('admin_name');
-                        if($name){
-                            echo $name;
-                        }
+                    if(Session::get('login_normal')){
+
+                        $name = Session::get('admin_name');
+                    }else{
+                        $name = Auth::user()->admin_name;
+                    }
+
+                    if($name){
+                        echo $name;
+                    }
                     ?>
                 </span>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu extended logout">
                 <li><a href="#"><i class=" fa fa-suitcase"></i>Prolife</a></li>
-                <li><a href="#"><i class="fa fa-cog"></i>Setting</a></li>
-                <li><a href="/logout"><i class="fa fa-key"></i>Log out</a></li>
+                <li><a href="#"><i class="fa fa-cog"></i>Cài đặt</a></li>
+                <li><a href="/logout-auth"><i class="fa fa-key"></i>Đăng xuất</a></li>
             </ul>
         </li>
         <!-- user login dropdown end -->
@@ -87,6 +93,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Tổng Quan</span>
                     </a>
                 </li>
+                @hasrole(['admin','author'])
+                <li>
+                    <a class="active" href="/all_customer">
+                        <i class="fa fa-user"></i>
+                        <span>Quản lý Khách hàng</span>
+                    </a>
+                </li>
+                @endhasrole
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -146,6 +160,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="/all_banner">Liệt kê banner</a></li>
                     </ul>
                 </li>
+                @hasrole(['admin'])
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="{{URL::to('/add-users')}}">Thêm user</a></li>
+                        <li><a href="{{URL::to('/users')}}">Liệt kê user</a></li>
+                    </ul>
+                </li>
+                @endhasrole
             </ul>
         </div>
         <!-- sidebar menu end-->
