@@ -54,7 +54,7 @@ class OrderController extends Controller
 
     //in don hang pdf
     public function print_order($check_code){
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App()->make('dompdf.wrapper');
         $pdf->loadHTML($this->print_order_convert($check_code));
         return $pdf->stream();
     }
@@ -172,6 +172,7 @@ class OrderController extends Controller
                     }
                     $ouput.='
                     <tr>
+                        <td>'.$ord->order_code.'</td>
                         <td>'.$ord->product_name.'</td>
                         <td>'.number_format($ord->product_price,0,',','.').' vnđ'.'</td>
                         <td>'.$ord->product_sales_quantity.'</td>
