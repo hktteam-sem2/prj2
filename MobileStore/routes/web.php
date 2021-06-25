@@ -145,6 +145,12 @@ Route::get('/unactive_banner/{slider_id}','SliderController@unactive_banner');
 Route::get('/active_banner/{slider_id}','SliderController@active_banner');
 Route::get('/delete_banner/{slider_id}','SliderController@delete_banner');
 
+//Lien he trang
+
+Route::get('/lien-he','ContactController@lien_he' );
+Route::get('/information','ContactController@information' );
+Route::post('/save-info','ContactController@save_info' );
+Route::post('/update-info/{info_id}','ContactController@update_info');
 
 
 

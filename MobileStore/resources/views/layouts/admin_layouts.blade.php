@@ -21,11 +21,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link rel="stylesheet" href="{{ asset('backend/css/morris.css') }}" type="text/css"/>
 <!-- calendar -->
 <link rel="stylesheet" href="{{ asset('backend/css/monthly.css') }}">
+<link rel="stylesheet" href="{{asset('backend/Datatables/css/jquery.dataTables.min.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('backend/Datatables/css/dataTables.bootstrap.min.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('backend/Datatables/css/dataTables.jqueryui.css')}}" type="text/css">
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+
 <!-- //calendar -->
 <!-- //font-awesome icons -->
 <script src="{{ asset('backend/js/jquery2.0.3.min.js') }}"></script>
 <script src="{{ asset('backend/js/raphael-min.js') }}"></script>
 <script src="{{ asset('backend/js/morris.js') }}"></script>
+
 </head>
 <body>
 <section id="container">
@@ -85,6 +91,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="active" href="/dashboard">
                         <i class="fa fa-dashboard"></i>
                         <span>Tổng Quan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/information">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Thông tin website</span>
                     </a>
                 </li>
                 <li class="sub-menu">
@@ -175,7 +187,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{ asset('backend/js/jquery.scrollTo.js') }}"></script>
 <!-- morris JavaScript -->
-
+<script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
+<script>
+    CKEDITOR.replace('addcontact');
+</script>
+<script type="text/javascript" src="{{asset('backend/Datatables/js/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('backend/Datatables/js/dataTables.bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('backend/Datatables/js/dataTables.jqueryui.min.js')}}"></script>
+<script>
+    $(document).ready( function () {
+        $('#productTable').DataTable();
+    });
+</script>
 <!-- quan ly so luong ban ton -->
 
     <!-- xu ly nut cap nhat  -->
@@ -332,4 +355,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<!-- //calendar -->
 </body>
+
+
 </html>

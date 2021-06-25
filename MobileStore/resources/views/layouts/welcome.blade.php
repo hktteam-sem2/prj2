@@ -122,15 +122,23 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="/trang-chu" class="active">Trang Chủ</a></li>
-								<li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Danh Mục<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
+                                        @foreach($category as $cate)
+                                        <li><a href="/danh-muc-san-pham/{{ $cate->category_id }}">{{ $cate->category_name }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
-								<li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
+                                <li class="dropdown"><a href="#">Thương Hiệu<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        @foreach($brand as $br)
+                                        <li><a href="/thuong-hieu-san-pham/{{ $br->brand_id }}">{{ $br->brand_name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
 
                                 </li>
-								<li><a href="#">Liên Hệ</a></li>
+								<li><a href="/lien-he">Liên Hệ</a></li>
 							</ul>
 						</div>
 					</div>

@@ -23,7 +23,7 @@
                 session()->put('message', null);
             }
         ?>
-        <table class="table table-striped b-t b-light">
+        <table class="table table-striped b-t b-light" id="productTable">
           <thead>
             <tr>
               <th>#</th>
@@ -41,24 +41,24 @@
           <tbody>
             @foreach($allproduct as $all)
                 <tr>
-                <td>{{ $all->product_id }}</td>
-                <td>{{ $all->product_name }}</td>
-                <td>{{ $all->product_price }}</td>
-                <td>{{ $all->product_quantity }}</td>
-                <td><img src="upload/product/{{ $all->product_image }}" height="100px" width="100px"></td>
-                <td>{{ $all->category_name }}</td>
-                <td>{{ $all->brand_name }}</td>
-                <td><span class="text-ellipsis">
-                    @if($all->product_status==0)
-                        <a href="/unactive_products/{{ $all->product_id }}"><span style="font-size: 18px; color: red"  class="fa fa-thumbs-down"></span></a>
-                    @else
-                        <a href="/active_products/{{ $all->product_id }}"><span style="font-size: 18px; color:green"  class="fa fa-thumbs-up"></span></a>
-                    @endif
-                </span></td>
-                <td>
-                    <a href="/edit_products/{{ $all->product_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px" class="fa fa-pencil-square-o text-success text-active"></i></a>
-                    <a onclick="return confirm('Are you sure to delete ?')" href="/delete_products/{{ $all->product_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px"  class="fa fa-times text-danger text"></i></a>
-                </td>
+                    <td>{{ $all->product_id }}</td>
+                    <td>{{ $all->product_name }}</td>
+                    <td>{{ $all->product_price }}</td>
+                    <td>{{ $all->product_quantity }}</td>
+                    <td><img src="upload/product/{{ $all->product_image }}" height="100px" width="100px"></td>
+                    <td>{{ $all->category_name }}</td>
+                    <td>{{ $all->brand_name }}</td>
+                    <td><span class="text-ellipsis">
+                        @if($all->product_status==0)
+                            <a href="/unactive_products/{{ $all->product_id }}"><span style="font-size: 18px; color: red"  class="fa fa-thumbs-down"></span></a>
+                        @else
+                            <a href="/active_products/{{ $all->product_id }}"><span style="font-size: 18px; color:green"  class="fa fa-thumbs-up"></span></a>
+                        @endif
+                    </span></td>
+                    <td>
+                        <a href="/edit_products/{{ $all->product_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px" class="fa fa-pencil-square-o text-success text-active"></i></a>
+                        <a onclick="return confirm('Are you sure to delete ?')" href="/delete_products/{{ $all->product_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px"  class="fa fa-times text-danger text"></i></a>
+                    </td>
                 </tr>
             @endforeach
           </tbody>
