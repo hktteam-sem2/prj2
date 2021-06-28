@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 //frontend
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu','HomeController@index');
+Route::post('/tim-kiem','HomeController@search');
+Route::post('/autocomplete-ajax','HomeController@autocomplete_ajax');
 
 
 //danh muc san pham trang chu
@@ -105,6 +107,14 @@ Route::get('/delete_products/{prodcut_id}','ProductsController@delete_products')
 
 Route::post('/export-product','ProductsController@export_product');
 
+Route::post('/quickview','ProductsController@quickview');
+Route::get('/comment','ProductsController@list_comment');
+Route::get('/delete-comment/{comment_id}','ProductsController@delete_comment');
+Route::post('/load-comment','ProductsController@load_comment');
+Route::post('/send-comment','ProductsController@send_comment');
+Route::post('/allow-comment','ProductsController@allow_comment');
+Route::post('/reply-comment','ProductsController@reply_comment');
+
 //cart
 Route::post('/add_cart','CartController@add_cart');
 Route::get('/show_cart','CartController@show_cart');
@@ -153,4 +163,15 @@ Route::post('/save-info','ContactController@save_info' );
 Route::post('/update-info/{info_id}','ContactController@update_info');
 
 
+//Gallery
+Route::get('/add-gallery/{product_id}','GalleryController@add_gallery');
+Route::post('/select-gallery','GalleryController@select_gallery');
+Route::post('/insert-gallery/{pro_id}','GalleryController@insert_gallery');
+Route::post('/update-gallery-name','GalleryController@update_gallery_name');
+Route::post('/delete-gallery','GalleryController@delete_gallery');
+Route::post('update-gallery','GalleryController@update_gallery');
+
+
+//Attribute
+Route::get('/show-spec/{product_id}','AttributeController@show_spec');
 

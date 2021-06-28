@@ -126,7 +126,7 @@ class OrderController extends Controller
     public function print_order_convert($check_code){
         $order_detail = Orderdetails::where('order_code', $check_code)->get();
         $order = Order::where('order_code', $check_code)->get();
-        foreach($order as $key => $ord){
+        foreach($order as $ord){
             $customer_id = $ord->customer_id;
             $shipping_id = $ord->shipping_id;
         }
@@ -135,7 +135,7 @@ class OrderController extends Controller
 
         $order_details = Orderdetails::with('product')->where('order_code' , $check_code)->get();
 
-        foreach($order_details as $key => $order_d){
+        foreach($order_details as $order_d){
             $product_coupon = $order_d->product_coupon;
         }
         if($product_coupon != 'No'){
