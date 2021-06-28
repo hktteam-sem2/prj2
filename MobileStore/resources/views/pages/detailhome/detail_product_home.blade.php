@@ -149,30 +149,6 @@
                                 @endfor
 
                             </ul>
-                            {{-- <ul class="list-inline"  title="Average Rating">
-                                @for($count=1; $count<=5; $count++)
-                                    @php
-                                        if($count<=$rating){
-                                            $color = 'color:#ffcc00;';
-                                        }
-                                        else {
-                                            $color = 'color:#ccc;';
-                                        }
-
-                                    @endphp
-                                  <li title="đánh giá sao"
-                                  id="{{$value->product_id}}-{{$count}}"
-                                  data-index="{{$count}}"
-                                  data-product_id="{{$value->product_id}}"
-                                  data-rating="{{$rating}}"
-                                  class="rating"
-                                  style="cursor:pointer; {{$color}} font-size:30px;">
-                                  &#9733;
-                                </li>
-                                @endfor
-                            </ul> --}}
-
-
                 <form action="#">
                     <span>
                         <input style="width:100%;margin-left: 0" type="text" class="comment_name" placeholder="Tên bình luận"/>
