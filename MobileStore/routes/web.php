@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 //frontend
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu','HomeController@index');
+Route::post('/tim-kiem','HomeController@search');
+Route::post('/autocomplete-ajax','HomeController@autocomplete_ajax');
 
 
 //danh muc san pham trang chu
@@ -33,6 +35,9 @@ Route::get('/chi-tiet-san-pham/{product_id}','ProductsController@detail_product'
 Route::get('/dashboard','AdminController@show_dashboard');
 Route::get('/logout','AdminController@logout');
 Route::post('/admin-dashboard','AdminController@dashboard');
+Route::post('/days-order','AdminController@days_order');
+Route::post('/filter-by-date','AdminController@filter_by_date');
+Route::post('/dashboard-filter','AdminController@dashboard_filter');
 
 
 //categoryproducts
@@ -85,6 +90,14 @@ Route::group(['middleware' => 'auth.roles'], function() {
     Route::get('/edit_products/{product_id}','ProductsController@edit_products');
     Route::post('/update_products/{product_id}','ProductsController@update_products');
     Route::get('/delete_products/{prodcut_id}','ProductsController@delete_products');
+    Route::post('/export-product','ProductsController@export_product');
+    Route::post('/quickview','ProductsController@quickview');
+    Route::get('/comment','ProductsController@list_comment');
+    Route::get('/delete-comment/{comment_id}','ProductsController@delete_comment');
+    Route::post('/load-comment','ProductsController@load_comment');
+    Route::post('/send-comment','ProductsController@send_comment');
+    Route::post('/allow-comment','ProductsController@allow_comment');
+    Route::post('/reply-comment','ProductsController@reply_comment');
 });
 
 //cart
@@ -148,4 +161,18 @@ Route::get('delete-user-roles/{admin_id}','UserController@delete_user_roles')->m
 Route::post('assign-roles','UserController@assign_roles')->middleware('auth.roles');
 Route::get('impersonate/{admin_id}','UserController@impersonate');
 
+
+//thong tin lien he
+Route::get('/lien-he','ContactController@lien_he' );
+Route::get('/information','ContactController@information' );
+Route::post('/save-info','ContactController@save_info' );
+Route::post('/update-info/{info_id}','ContactController@update_info');
+
+//Gallery
+Route::get('/add-gallery/{product_id}','GalleryController@add_gallery');
+Route::post('/select-gallery','GalleryController@select_gallery');
+Route::post('/insert-gallery/{pro_id}','GalleryController@insert_gallery');
+Route::post('/update-gallery-name','GalleryController@update_gallery_name');
+Route::post('/delete-gallery','GalleryController@delete_gallery');
+Route::post('update-gallery','GalleryController@update_gallery');
 

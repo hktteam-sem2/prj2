@@ -14,6 +14,9 @@
 	<link href="{{ asset('frontend/css/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('frontend/css/responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/css/sweetalert.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/lightgallery.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/lightslider.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/prettify.css') }}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -110,7 +113,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-7">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -122,22 +125,35 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="/trang-chu" class="active">Trang Chủ</a></li>
-								<li class="dropdown"><a href="#">Sản Phẩm<i class="fa fa-angle-down"></i></a>
+                                <li class="dropdown"><a href="#">Danh Mục<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
+                                        @foreach($category as $cate)
+                                        <li><a href="/danh-muc-san-pham/{{ $cate->category_id }}">{{ $cate->category_name }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
-								<li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
+                                <li class="dropdown"><a href="#">Thương Hiệu<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        @foreach($brand as $br)
+                                        <li><a href="/thuong-hieu-san-pham/{{ $br->brand_id }}">{{ $br->brand_name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
 
                                 </li>
-								<li><a href="#">Liên Hệ</a></li>
+								<li><a href="/lien-he">Liên Hệ</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
-						</div>
+					<div class="col-sm-5">
+						<form action="/tim-kiem" autocomplete="off" method="POST">
+                            @csrf
+                            <div class="search_box">
+                                <input type="text" style="width: 100%" name="keywords_submit" id="keywords" placeholder="Tìm kiếm sản phẩm"/>
+                                <div id="search_ajax"></div>
+                                <input type="submit" style="margin-top:0;color:#666" name="search_items" class="btn btn-primary btn-sm" value="Tìm kiếm">
+                            </div>
+                        </form>
 					</div>
 				</div>
 			</div>
@@ -392,6 +408,171 @@
     <script src="{{ asset('frontend/js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script src="{{ asset('frontend/js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/lightgallery-all.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/lightslider.js') }}"></script>
+    <script src="{{ asset('frontend/js/prettify.js') }}"></script>
+    <!--Comment-->
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        load_comment();
+
+        function load_comment(){
+            var product_id = $('.comment_product_id').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+              url:"{{url('/load-comment')}}",
+              method:"POST",
+              data:{product_id:product_id, _token:_token},
+              success:function(data){
+
+                $('#comment_show').html(data);
+              }
+            });
+        }
+        $('.send-comment').click(function(){
+            var product_id = $('.comment_product_id').val();
+            var comment_name = $('.comment_name').val();
+            var comment_content = $('.comment_content').val();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+              url:"{{url('/send-comment')}}",
+              method:"POST",
+              data:{product_id:product_id,comment_name:comment_name,comment_content:comment_content, _token:_token},
+              success:function(data){
+
+                $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công, bình luận đang chờ duyệt</span>');
+                load_comment();
+                $('#notify_comment').fadeOut(9000);
+                $('.comment_name').val('');
+                $('.comment_content').val('');
+              }
+            });
+        });
+    });
+</script>
+<!-- End comment-->
+ <!--add to  cart quickview-->
+ <script type="text/javascript">
+
+    $(document).on('click','.add-to-cart-quickview',function(){
+
+        var id = $(this).data('id_product');
+        var cart_product_id = $('.cart_product_id_' + id).val();
+        var cart_product_name = $('.cart_product_name_' + id).val();
+        var cart_product_image = $('.cart_product_image_' + id).val();
+        var cart_product_quantity = $('.cart_product_quantity_' + id).val();
+        var cart_product_price = $('.cart_product_price_' + id).val();
+        var cart_product_qty = $('.cart_product_qty_' + id).val();
+        var _token = $('input[name="_token"]').val();
+
+        if(parseInt(cart_product_qty)>parseInt(cart_product_quantity)){
+            alert('Làm ơn đặt nhỏ hơn ' + cart_product_quantity);
+        }else{
+
+            $.ajax({
+                url: '{{url('/add-cart-ajax')}}',
+                method: 'POST',
+                data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token,cart_product_quantity:cart_product_quantity},
+                beforeSend: function(){
+                    $("#beforesend_quickview").html("<p class='text text-primary'>Đang thêm sản phẩm vào giỏ hàng</p>");
+                },
+                success:function(){
+                    $("#beforesend_quickview").html("<p class='text text-success'>Sản phẩm đã thêm vào giỏ hàng</p>");
+
+
+                }
+
+            });
+        }
+
+
+    });
+    $(document).on('click','.redirect-cart',function(){
+        window.location.href = "{{url('/gio-hang')}}";
+    });
+
+</script>
+<!-- End add to  cart quickview-->
+<!--QuickView-->
+<script type="text/javascript">
+
+    $('.xemnhanh').click(function(){
+        var product_id = $(this).data('id_product');
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url:"{{url('/quickview')}}",
+            method:"POST",
+            dataType:"JSON",
+            data:{product_id:product_id, _token:_token},
+            success:function(data){
+                $('#product_quickview_title').html(data.product_name);
+                $('#product_quickview_id').html(data.product_id);
+                $('#product_quickview_price').html(data.product_price);
+                $('#product_quickview_image').html(data.product_image);
+                $('#product_quickview_gallery').html(data.product_gallery);
+                $('#product_quickview_desc').html(data.product_desc);
+                $('#product_quickview_value').html(data.product_quickview_value);
+                $('#product_quickview_button').html(data.product_button);
+            }
+        });
+    });
+
+</script>
+<!--End QuickView-->
+<!--AutoComplete-->
+<script type="text/javascript">
+    $('#keywords').keyup(function(){
+        var query = $(this).val();
+
+          if(query != '')
+            {
+             var _token = $('input[name="_token"]').val();
+
+             $.ajax({
+              url:"{{url('/autocomplete-ajax')}}",
+              method:"POST",
+              data:{query:query, _token:_token},
+              success:function(data){
+               $('#search_ajax').fadeIn();
+                $('#search_ajax').html(data);
+              }
+             });
+
+            }else{
+
+                $('#search_ajax').fadeOut();
+            }
+    });
+
+    $(document).on('click', '.li_search_ajax', function(){
+        $('#keywords').val($(this).text());
+        $('#search_ajax').fadeOut();
+    });
+</script>
+<!--End Autocomplete-->
+    <!--/Xu ly gallery -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+           $('#imageGallery').lightSlider({
+
+               gallery:true,
+               item:1,
+               loop:true,
+               thumbItem:3,
+               slideMargin:0,
+               enableDrag: false,
+               currentPagerPosition:'left',
+               onSliderLoad: function(el) {
+                   el.lightGallery({
+                       selector: '#imageGallery .lslide'
+                   });
+               }
+
+           });
+         });
+   </script>
+   <!--End /Xu ly gallery -->
 
     <!--/Script phần xác nhận đặt hàng trong trang show_checkout -->
     <script type="text/javascript">

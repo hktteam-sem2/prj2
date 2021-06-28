@@ -3,41 +3,31 @@
 
 @foreach($detail_product as $detail)
     <div class="product-details"><!--product-details-->
+        <style type="text/css">
+            .lSSlideOuter .lSPager.lSGallery img {
+                display: block;
+                height: 140px;
+                max-width: 100%;
+            }
+
+        }
+        </style>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background: none;">
+                <li class="breadcrumb-item"><a href="{{url('/')}}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="/danh-muc-san-pham/{{ $category_id }}">{{$category_name}}</a></li>
+                <li class="breadcrumb-item"><a href="/thuong-hieu-san-pham/{{ $brand_id }}">{{$brand_name}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{$product_name}}</li>
+            </ol>
+          </nav>
         <div class="col-sm-5">
-            <div class="view-product">
-                <img src="/upload/product/{{ $detail->product_image }}" alt="" />
-                <h3>ZOOM</h3>
-            </div>
-            <div id="similar-product" class="carousel slide" data-ride="carousel">
-
-                <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        <div class="item active">
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="item">
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        </div>
-                        <div class="item">
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        <a href=""><img src="{{ asset('/frontend/images/similar1.jpg') }}" alt=""></a>
-                        </div>
-
-                    </div>
-
-                <!-- Controls -->
-                <a class="left item-control" href="#similar-product" data-slide="prev">
-                    <i class="fa fa-angle-left"></i>
-                </a>
-                <a class="right item-control" href="#similar-product" data-slide="next">
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
+            <ul id="imageGallery">
+                @foreach($gallery as $gal)
+                  <li data-thumb="{{asset('upload/gallery/'.$gal->gallery_image)}}" data-src="{{asset('upload/gallery/'.$gal->gallery_image)}}">
+                    <img width="100%" alt="{{$gal->gallery_name}}" src="{{asset('upload/gallery/'.$gal->gallery_image)}}" />
+                  </li>
+                 @endforeach
+            </ul>
 
         </div>
         <div class="col-sm-7">
@@ -83,29 +73,85 @@
         </div>
 
         <div class="tab-pane fade" id="companyprofile" >
-            <p>{!! $detail->product_speci !!}</p>
+            {{-- <p>{!! $detail->product_speci !!}</p> --}}
         </div>
 
         <div class="tab-pane fade active in" id="reviews" >
             <div class="col-sm-12">
                 <ul>
-                    <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
+                    <li><a href=""><i class="fa fa-user"></i>Admin</a></li>
                     <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                    <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+                    <li><a href=""><i class="fa fa-calendar-o"></i>16.09.2020</a></li>
                 </ul>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                <p><b>Write Your Review</b></p>
+                <style type="text/css">
+                    .style_comment {
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        background: #F0F0E9;
+                    }
+                </style>
+                <form>
+                     @csrf
+                    <input type="hidden" name="comment_product_id" class="comment_product_id" value="{{$detail->product_id}}">
+                     <div id="comment_show"></div>
+
+                </form>
+
+                <p><b>Viết đánh giá của bạn</b></p>
+
+                 <!------Rating here---------->
+                            {{-- <ul class="list-inline rating"  title="Average Rating">
+                                @for($count=1; $count<=5; $count++)
+                                    @php
+                                        if($count<=$rating){
+                                            $color = 'color:#ffcc00;';
+                                        }
+                                        else {
+                                            $color = 'color:#ccc;';
+                                        }
+
+                                    @endphp
+
+                                <li title="star_rating" id="{{$value->product_id}}-{{$count}}" data-index="{{$count}}"  data-product_id="{{$value->product_id}}" data-rating="{{$rating}}" class="rating" style="cursor:pointer; {{$color}} font-size:30px;">&#9733;</li>
+                                @endfor
+
+                            </ul> --}}
+                            {{-- <ul class="list-inline"  title="Average Rating">
+                                @for($count=1; $count<=5; $count++)
+                                    @php
+                                        if($count<=$rating){
+                                            $color = 'color:#ffcc00;';
+                                        }
+                                        else {
+                                            $color = 'color:#ccc;';
+                                        }
+
+                                    @endphp
+                                  <li title="đánh giá sao"
+                                  id="{{$value->product_id}}-{{$count}}"
+                                  data-index="{{$count}}"
+                                  data-product_id="{{$value->product_id}}"
+                                  data-rating="{{$rating}}"
+                                  class="rating"
+                                  style="cursor:pointer; {{$color}} font-size:30px;">
+                                  &#9733;
+                                </li>
+                                @endfor
+                            </ul> --}}
+
 
                 <form action="#">
                     <span>
-                        <input type="text" placeholder="Your Name"/>
-                        <input type="email" placeholder="Email Address"/>
+                        <input style="width:100%;margin-left: 0" type="text" class="comment_name" placeholder="Tên bình luận"/>
+
                     </span>
-                    <textarea name="" ></textarea>
-                    <b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-                    <button type="button" class="btn btn-default pull-right">
-                        Submit
+                    <textarea name="comment" class="comment_content" placeholder="Nội dung bình luận"></textarea>
+                    <div id="notify_comment"></div>
+
+                    <button type="button" class="btn btn-default pull-right send-comment">
+                        Gửi bình luận
                     </button>
+
                 </form>
             </div>
         </div>

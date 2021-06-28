@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<meta name="csrf-token" content="{{csrf_token()}}">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- bootstrap-css -->
 <link rel="stylesheet" href="{{ asset('backend/css/bootstrap.min.css') }}" >
@@ -22,10 +23,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- calendar -->
 <link rel="stylesheet" href="{{ asset('backend/css/monthly.css') }}">
 <!-- //calendar -->
+<!-- datatable -->
+<link rel="stylesheet" href="{{ asset('backend/css/jquery.dataTables.min.css') }}" type="text/css"/>
+<!-- //datatable -->
+<link rel="stylesheet" href="{{ asset('backend/css/jquery-ui.css') }}">
+{{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
+<link rel="stylesheet" href="{{ asset('backend/css/morris.css') }}">
+{{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"> --}}
 <!-- //font-awesome icons -->
 <script src="{{ asset('backend/js/jquery2.0.3.min.js') }}"></script>
 <script src="{{ asset('backend/js/raphael-min.js') }}"></script>
 <script src="{{ asset('backend/js/morris.js') }}"></script>
+<script src="{{ asset('backend/js/jquery.dataTables.min.js') }}"></script>
+
 </head>
 <body>
 <section id="container">
@@ -95,6 +105,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </li>
                 @hasrole(['admin','author'])
                 <li>
+                    <a href="/information">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Thông tin website</span>
+                    </a>
+                </li>
+                <li>
                     <a class="active" href="/all_customer">
                         <i class="fa fa-user"></i>
                         <span>Quản lý Khách hàng</span>
@@ -160,6 +176,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="/all_banner">Liệt kê banner</a></li>
                     </ul>
                 </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Bình luận</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="/comment">Liệt kê bình luận</a></li>
+                    </ul>
+                </li>
                 @hasrole(['admin'])
                 <li class="sub-menu">
                     <a href="javascript:;">
@@ -184,11 +209,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         @yield('admin_content')
     </section>
  <!-- footer -->
-		  <div class="footer">
+		  {{-- <div class="footer">
 			<div class="wthree-copyright">
-			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+			  <p>© 2021 HKT-Admin</p>
 			</div>
-		  </div>
+		  </div> --}}
   <!-- / footer -->
 </section>
 <!--main content end-->
@@ -201,6 +226,337 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{ asset('backend/js/jquery.scrollTo.js') }}"></script>
 <!-- morris JavaScript -->
+
+{{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
+<script src="{{ asset('backend/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('backend/js/morris.js') }}"></script>
+<script src="{{ asset('backend/js/raphael-min.js') }}"></script>
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> --}}
+<script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
+<script>
+    CKEDITOR.replace('addcontact');
+    CKEDITOR.replace('product_desc');
+    CKEDITOR.replace('editdesc');
+</script>
+
+<!--Xu ly duyet binh luan-->
+<script type="text/javascript">
+    $('.comment_duyet_btn').click(function(){
+        var comment_status = $(this).data('comment_status');
+
+        var comment_id = $(this).data('comment_id');
+        var comment_product_id = $(this).attr('id');
+        if(comment_status==0){
+            var alert = 'Thay đổi thành duyệt thành công';
+        }else{
+            var alert = 'Thay đổi thành không duyệt thành công';
+        }
+          $.ajax({
+                url:"{{url('/allow-comment')}}",
+                method:"POST",
+
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{comment_status:comment_status,comment_id:comment_id,comment_product_id:comment_product_id},
+                success:function(data){
+                    location.reload();
+                   $('#notify_comment').html('<span class="text text-alert">'+alert+'</span>');
+
+                }
+            });
+
+
+    });
+    $('.btn-reply-comment').click(function(){
+        var comment_id = $(this).data('comment_id');
+
+        var comment = $('.reply_comment_'+comment_id).val();
+
+
+
+        var comment_product_id = $(this).data('product_id');
+
+
+        // alert(comment);
+        // alert(comment_id);
+        // alert(comment_product_id);
+
+          $.ajax({
+                url:"{{url('/reply-comment')}}",
+                method:"POST",
+
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{comment:comment,comment_id:comment_id,comment_product_id:comment_product_id},
+                success:function(data){
+                    $('.reply_comment_'+comment_id).val('');
+
+                   $('#notify_comment').html('<span class="text text-alert">Trả lời bình luận thành công</span>');
+                   location.reload();
+
+                }
+            });
+
+
+    });
+</script>
+<!--End xu ly duyet binh luan-->
+<!-- datepicker ma giam gia -->
+<script>
+    $( function() {
+      $( "#start_coupon" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "dd/mm/yy",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+      $( "#end_coupon" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "dd/mm/yy",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+    } );
+</script>
+<!--  end datepicker ma giam gia -->
+
+<!-- xu ly Gallery -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        load_gallery();
+
+        function load_gallery(){
+            var pro_id = $('.pro_id').val();
+            var _token = $('input[name="_token"]').val();
+            // alert(pro_id);
+            $.ajax({
+                url:"{{url('/select-gallery')}}",
+                method:"POST",
+                data:{pro_id:pro_id,_token:_token},
+                success:function(data){
+                    $('#gallery_load').html(data);
+                }
+            });
+        }
+        //thong bao loi cho the span error
+        $('#file').change(function(){
+            var error = '';
+            var files = $('#file')[0].files;//[0] la file anh dau tien
+
+            if(files.length>5){
+                error+='<p>Bạn chọn tối đa chỉ được 5 ảnh</p>';
+            }else if(files.length==''){
+                error+='<p>Bạn không được bỏ trống ảnh</p>';
+            }else if(files.size > 2000000){
+                error+='<p>File ảnh không được lớn hơn 2MB</p>';
+            }
+
+            if(error==''){
+
+            }else{
+                $('#file').val('');
+                $('#error_gallery').html('<span class="text-danger">'+error+'</span>');
+                return false;
+            }
+
+        });
+        // Thay doi ten cua hinh anh
+        $(document).on('blur','.edit_gal_name',function(){
+            var gal_id = $(this).data('gal_id');
+            var gal_text = $(this).text();
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:"{{url('/update-gallery-name')}}",
+                method:"POST",
+                data:{gal_id:gal_id,gal_text:gal_text,_token:_token},
+                success:function(data){
+                    load_gallery();
+                    $('#error_gallery').html('<span class="text-danger">Cập nhật tên hình ảnh thành công</span>');
+                }
+            });
+        });
+        // Xóa hình ảnh
+        $(document).on('click','.delete-gallery',function(){
+            var gal_id = $(this).data('gal_id');
+
+            var _token = $('input[name="_token"]').val();
+            if(confirm('Bạn muốn xóa hình ảnh này không?')){
+                $.ajax({
+                    url:"{{url('/delete-gallery')}}",
+                    method:"POST",
+                    data:{gal_id:gal_id,_token:_token},
+                    success:function(data){
+                        load_gallery();
+                        $('#error_gallery').html('<span class="text-danger">Xóa hình ảnh thành công</span>');
+                    }
+                });
+            }
+        });
+        //Thay doi hinh anh
+        $(document).on('change','.file_image',function(){
+
+            var gal_id = $(this).data('gal_id');
+            var image = document.getElementById("file-"+gal_id).files[0];
+
+            var form_data = new FormData();
+
+            form_data.append("file", document.getElementById("file-"+gal_id).files[0]);
+            form_data.append("gal_id",gal_id);
+            $.ajax({
+                url:"{{url('/update-gallery')}}",
+                method:"POST",
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success:function(data){
+                    load_gallery();
+                    $('#error_gallery').html('<span class="text-danger">Cập nhật hình ảnh thành công</span>');
+                }
+            });
+        });
+    });
+</script>
+<!-- End xu ly Gallery -->
+
+<!-- Morris Bar -->
+<script>
+    $(document).ready(function(){
+        chart30daysorder();
+
+        var chart = new Morris.Bar({
+            element: 'myfirstchart',
+            lineColors: ['#819C79' , '#fc8710' , '#FF6541' , '#A4ADD3' , '#766856'],
+            pointFillColors: ['#ffffff'],
+            pointStrokeColors: ['black'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            parseTime: false,
+            xkey: 'period',
+            ykeys: ['order' , 'sales' , 'profit' , 'quantity'],
+            behaveLikeLine: true,
+            labels: ['đơn hàng' , 'doanh số' , 'lợi nhuận' ,'số lượng']
+        });
+
+
+        function chart30daysorder(){
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ url('/days-order') }}",
+                method: "POST",
+                dataType: "JSON",
+                data:{
+                    _token:_token
+                },
+
+                success:function(data){
+                    chart.setData(data);
+                }
+            });
+        }
+
+        $('#btn-dashboard-filter').click(function(){
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            $.ajax({
+                url: "{{url('/filter-by-date')}}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date:from_date,
+                    to_date:to_date,
+                    _token:_token
+                },
+                success:function(data){
+                    chart.setData(data);
+                }
+            });
+        });
+
+        $('.dashboard-filter').change(function(){
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{url('/dashboard-filter')}}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    dashboard_value:dashboard_value,
+                    _token:_token
+                },
+                success:function(data){
+                    chart.setData(data);
+                }
+            });
+        });
+    });
+</script>
+<!-- End Morris Bar -->
+
+<!-- Morris donut -->
+<script>
+    $(document).ready(function(){
+       var donut =  Morris.Donut({
+        element: 'donut',
+        resize: true,
+        colors: [
+            '#a8328e',
+            // '#33CC00',
+            '#61a1ce',
+            '#ce8f61'
+        ],
+        //labelColor:"#cccccc", // text color
+        //backgroundColor: '#333333', // border color
+        data: [
+            {label:"Sản Phẩm", value:{{ $products }}},
+            // {label:"Sản Phẩm xem nhiều", value:{{ $product_views }}},
+            {label:"Đơn Hàng", value:{{ $orders}}},
+            {label:"Khách Hàng", value:{{ $customers }}},
+        ]
+        });
+    });
+</script>
+<!-- End Morris donut -->
+
+<!-- datepicker -->
+<script>
+    $( function() {
+      $( "#datepicker" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+      $( "#datepicker2" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+    } );
+</script>
+<!--  end datepicker -->
+
+
+<!-- datatable -->
+<script>
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+</script>
+<!--  End datatable -->
 
 <!-- quan ly so luong ban ton -->
 

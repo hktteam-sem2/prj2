@@ -35,11 +35,40 @@
                     </div>
                     <div class="form-group">
                         <label>Mô Tả</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc" placeholder="Desc Product"></textarea>
+                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc" id="product_desc" placeholder="Desc Product"></textarea>
+                    </div>
+                    <label>Thông số kỹ thuật</label><br>
+                    <div class="form-group">
+                        <label>Màn hình: </label>
+                        <input type="text" class="form-control" name="screen">
                     </div>
                     <div class="form-group">
-                        <label>Thông số kỹ thuật</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_speci" placeholder="Content Product"></textarea>
+                        <label>Hệ điều hành: </label>
+                        <input type="text" class="form-control" name="os">
+                    <div class="form-group">
+                        <label>Camera trước: </label>
+                        <input type="text" class="form-control" name="front_camera">
+                    <div class="form-group">
+                        <label>Camera sau: </label>
+                        <input type="text" class="form-control" name="back_camera">
+                    <div class="form-group">
+                        <label>Chipset: </label>
+                        <input type="text" class="form-control" name="chip">
+                    <div class="form-group">
+                        <label>Ram: </label>
+                        <input type="text" class="form-control" name="ram">
+                    </div>
+                    <div class="form-group">
+                        <label>Bộ nhớ: </label>
+                        <input type="text" class="form-control" name="memory">
+                    </div>
+                    <div class="form-group">
+                        <label>Sim: </label>
+                        <input type="text" class="form-control" name="sim">
+                    </div>
+                    <div class="form-group">
+                        <label>Pin: </label>
+                        <input type="text" class="form-control" name="battery_charge">
                     </div>
                     <div class="form-group">
                         <label>Danh Mục Sản Phẩm</label>

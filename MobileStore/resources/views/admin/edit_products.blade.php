@@ -40,11 +40,43 @@
                     </div>
                     <div class="form-group">
                         <label>Mô Tả</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc">{{ $edit->product_desc }}</textarea>
+                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc" id="editdesc">{{ $edit->product_desc }}</textarea>
+                    </div>
+                    <label>Thông số kỹ thuật</label><br>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="speci_id" value="{{ $edit->pro_details->speci_id }}">
                     </div>
                     <div class="form-group">
-                        <label>Thông số kỹ thuật</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_speci">{{ $edit->product_speci }}</textarea>
+                        <label>Màn hình: </label>
+                        <input type="text" class="form-control" name="screen" value="{{ $edit->pro_details->speci_screen }}">
+                    </div>
+                     <div class="form-group">
+                        <label>Hệ điều hành: </label>
+                        <input type="text" class="form-control" name="os" value="{{ $edit->pro_details->speci_os }}">
+                    <div class="form-group">
+                        <label>Camera trước: </label>
+                        <input type="text" class="form-control" name="front_camera" value="{{ $edit->pro_details->speci_frontcam }}">
+                    <div class="form-group">
+                        <label>Camera sau: </label>
+                        <input type="text" class="form-control" name="back_camera" value="{{ $edit->pro_details->speci_backcam }}">
+                    <div class="form-group">
+                        <label>Chipset: </label>
+                        <input type="text" class="form-control" name="chip" value="{{ $edit->pro_details->speci_chip }}">
+                    <div class="form-group">
+                        <label>Ram: </label>
+                        <input type="text" class="form-control" name="ram" value="{{ $edit->pro_details->speci_ram }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Bộ nhớ: </label>
+                        <input type="text" class="form-control" name="memory" value="{{ $edit->pro_details->speci_memory }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Sim: </label>
+                        <input type="text" class="form-control" name="sim" value="{{ $edit->pro_details->speci_sim }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Pin: </label>
+                        <input type="text" class="form-control" name="battery_charge" value="{{ $edit->pro_details->speci_battery }}">
                     </div>
                     <div class="form-group">
                         <label>Danh Mục Sản Phẩm</label>

@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive">
+      <div class="table-responsive" >
         <?php
             $message = session()->get('message');
             if($message){

@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Validator;
 use App\Login;
+use App\Order;
+use App\Product;
+use App\Customer;
+use App\Statistical;
+use App\Visitors;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 class AdminController extends Controller
@@ -14,9 +20,51 @@ class AdminController extends Controller
     public function index(){
     	return view('admin_login');
     }
-    public function show_dashboard(){
+    public function show_dashboard(Request $request){
         $this->AuthLogin();
-    	return view('admin.dashboard');
+        //get ip address
+        $user_ip_address = $request->ip();
+        $early_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+        $end_of_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
+        $early_this_month = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+        $oneyears = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+         //total last month
+        $visitor_of_lastmonth = Visitors::whereBetween('date_visitors',[$early_last_month,$end_of_last_month])->get();
+        $visitor_last_month_count = $visitor_of_lastmonth->count();
+
+            //total this month
+        $visitor_of_thismonth = Visitors::whereBetween('date_visitors',[$early_this_month,$now])->get();
+        $visitor_this_month_count = $visitor_of_thismonth->count();
+
+            //total in one year
+        $visitor_of_year = Visitors::whereBetween('date_visitors',[$oneyears,$now])->get();
+        $visitor_year_count = $visitor_of_year->count();
+
+            //total visitors
+        $visitors = Visitors::all();
+        $visitors_total = $visitors->count();
+
+            //current online
+        $visitors_current = Visitors::where('ip_address',$user_ip_address)->get();
+        $visitor_count = $visitors_current->count();
+
+        if($visitor_count<1){
+            $visitor = new Visitors();
+            $visitor->ip_address = $user_ip_address;
+            $visitor->date_visitors = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+            $visitor->save();
+        }
+
+        //total
+        $products = Product::all()->count();
+        $orders = Order::all()->count();
+        $customers = Customer::all()->count();
+
+        $product_views = Product::orderBy('product_views','DESC')->take(20)->get();
+    	return view('admin.dashboard')->with(compact('visitors_total','visitor_count','visitor_last_month_count',
+        'visitor_this_month_count','visitor_year_count','products','orders','customers','product_views'));
     }
     public function dashboard(Request $request){
         //$data = $request->all();
@@ -54,5 +102,88 @@ class AdminController extends Controller
         Session::put('admin_name',null);
         Session::put('admin_id',null);
         return Redirect::to('/login-auth');
+    }
+
+    //Lọc doanh theo ngày tháng năm
+    public function filter_by_date(Request $request){
+        $data = $request->all();
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
+
+        $get = Statistical::whereBetween('created_at',[$from_date,$to_date])->orderBy('created_at','ASC')->get();
+
+        foreach($get as $key => $val){
+            $chart_data[] = array(
+                'period' => $val->created_at,
+                'order' => $val->total_order,
+                'sales' => $val->sales,
+                'profit' => $val->profit,
+                'quantity' => $val->quantity
+            );
+        }
+        echo $data = json_encode($chart_data);
+    }
+    //lọc doanh số theo 7 ngày , tháng này , tháng trước , 365 ngày
+    public function dashboard_filter(Request $request){
+        $data = $request->all();
+
+        // $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
+        $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+
+        $dauthangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+
+        $cuoithangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
+
+        $sub7days = Carbon::now('Asia/Ho_Chi_Minh')->subDays(7)->toDateString();
+
+        $sub365days = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
+
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+        if($data['dashboard_value']=='7ngay'){
+
+            $get = Statistical::whereBetween('created_at',[$sub7days,$now])->orderBy('created_at' , 'ASC')->get();
+
+        }elseif($data['dashboard_value']=='thangtruoc'){
+
+            $get = Statistical::whereBetween('created_at',[$dauthangtruoc,$cuoithangtruoc])->orderBy('created_at' , 'ASC')->get();
+
+        }elseif($data['dashboard_value']=='thangnay'){
+
+            $get = Statistical::whereBetween('created_at',[$dauthangnay,$now])->orderBy('created_at' , 'ASC')->get();
+
+        }else{
+
+            $get = Statistical::whereBetween('created_at',[$sub365days,$now])->orderBy('created_at' , 'ASC')->get();
+        }
+
+        foreach($get as $key => $val){
+            $chart_data[] = array(
+                'period' => $val->created_at,
+                'order' => $val->total_order,
+                'sales' => $val->sales,
+                'profit' => $val->profit,
+                'quantity' => $val->quantity
+            );
+        }
+        echo $data = json_encode($chart_data);
+    }
+
+    //hiện thị biểu đồ doanh số theo 30days lên trước
+    public function days_order(){
+        $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subDays(30)->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        $get = Statistical::whereBetween('created_at',[$sub30days,$now])->orderBy('created_at' , 'ASC')->get();
+
+        foreach($get as $key => $val){
+            $chart_data[] = array(
+                'period' => $val->created_at,
+                'order' => $val->total_order,
+                'sales' => $val->sales,
+                'profit' => $val->profit,
+                'quantity' => $val->quantity
+            );
+        }
+        echo $data =  json_encode($chart_data);
     }
 }
