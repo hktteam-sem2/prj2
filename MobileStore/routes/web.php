@@ -98,6 +98,7 @@ Route::group(['middleware' => 'auth.roles'], function() {
     Route::post('/send-comment','ProductsController@send_comment');
     Route::post('/allow-comment','ProductsController@allow_comment');
     Route::post('/reply-comment','ProductsController@reply_comment');
+    Route::post('/insert-rating','ProductsController@insert_rating');
 });
 
 //cart

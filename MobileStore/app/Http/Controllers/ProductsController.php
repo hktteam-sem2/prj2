@@ -15,18 +15,18 @@ use App\Gallery;
 use App\Pro_details;
 use App\Product;
 use App\Comment;
-
+use App\Rating;
 class ProductsController extends Controller
 {
     //check xem admin co dang nhap hay ko
-    public function CheckAdminLogin(){
-        $admin_id = Auth::id();
-        if($admin_id==true){
-            return redirect('/dashboard');
-        }else{
-            return redirect('/login-auth')->send();
-        }
-    }
+    // public function AuthLogin(){
+    //     $admin_id =Auth::id();
+    //     if($admin_id){
+    //         return Redirect::to('dashboard');
+    //     }else{
+    //         return Redirect::to('/login-auth')->send();
+    //     }
+    // }
 
     //dang nhap account customer
     public function login_customer(Request $request){
@@ -48,7 +48,7 @@ class ProductsController extends Controller
 
       //thêm danh mục sản phẩm
       public function add_products(){
-        $this->CheckAdminLogin();
+            // $this->AuthLogin();
           $category = DB::table('categoryproducts')->orderBy('category_id')->get();
           $brand = DB::table('brandproducts')->orderBy('brand_id')->get();
         return view('admin.add_products')->with('category',$category)->with('brand',$brand);
@@ -79,8 +79,9 @@ class ProductsController extends Controller
         $pro_id = $pro->product_id;
 
         $spec = new Pro_details();
-        $spec->speci_screen = $request->screen;
-        $spec->speci_os = $request->screen;
+        // $spec->speci_screen = $request->screen;
+        $spec->speci_screen =$request->screen;
+        $spec->speci_os =$request->os;
         $spec->speci_frontcam = $request->front_camera;
         $spec->speci_backcam = $request->back_camera;
         $spec->speci_chip = $request->chip;
@@ -105,8 +106,9 @@ class ProductsController extends Controller
 
      //hiển thị tất cả danh mục sản phẩm
      public function all_products(){
-        $this->CheckAdminLogin();
+        // $this->AuthLogin();
         $allproduct = DB::table('products')
+        ->join('pro_details','pro_details.product_id','=','products.product_id')
         ->join('categoryproducts','categoryproducts.category_id','=','products.category_id')
         ->join('brandproducts','brandproducts.brand_id','=','products.brand_id')
         ->orderBy('products.product_id')->get();
@@ -130,11 +132,11 @@ class ProductsController extends Controller
 
     //edit danh muc san pham
     public function edit_products($product_id){
-        $this->CheckAdminLogin();
+        // $this->AuthLogin();
         $category = DB::table('categoryproducts')->orderBy('category_id')->get();
         $brand = DB::table('brandproducts')->orderBy('brand_id')->get();
         // $edit = DB::table('products')->where('product_id', $product_id)->first();
-        $edit = Product::with('Pro_details')->where('product_id' , $product_id)->first();
+        $edit = Product::with('pro_details')->where('product_id' , $product_id)->first();
         return view('admin.edit_products',['edit' => $edit])->with('category', $category)->with('brand',$brand);
     }
 
@@ -181,7 +183,7 @@ class ProductsController extends Controller
 
         }
         $data->save();
-        // $data_id = $data->product_id;
+        $data_id = $data->product_id;
 
         $data->pro_details->speci_screen = $request->screen;
         $data->pro_details->speci_os = $request->os;
@@ -192,7 +194,7 @@ class ProductsController extends Controller
         $data->pro_details->speci_memory = $request->memory;
         $data->pro_details->speci_sim = $request->sim;
         $data->pro_details->speci_battery = $request->battery_charge;
-        // $data->pro_details->product_id = $data_id;
+        $data->pro_details->product_id = $data_id;
         $data->pro_details->save();
 
         session()->put('message', 'Cập nhật sản phẩm thành công!!!');
@@ -201,6 +203,7 @@ class ProductsController extends Controller
 
     //xoa danh muc san pham
     public function delete_products($product_id){
+        // $this->AuthLogin();
         DB::table('products')->where('product_id', $product_id)->delete();
         session()->put('message', 'delete Successfull !!!');
         return redirect('all_products');
@@ -208,6 +211,7 @@ class ProductsController extends Controller
 
     //report
     public function export_product(){
+        $this->AuthLogin();
         return Excel::download(new ExcelExportProduct , 'Product.xlsx');
     }
 
@@ -216,6 +220,7 @@ class ProductsController extends Controller
 
     //show chi tiet san pham trang chu
     public function detail_product($product_id){
+
         $category = DB::table('categoryproducts')->where('category_status','1')->orderBy('category_id')->get();
         $brand = DB::table('brandproducts')->where('brand_status','1')->orderBy('brand_id')->get();
         $slider = DB::table('slider')->orderByDesc('slider_id')->where('slider_status', '1')->take(4)->get();
@@ -223,7 +228,8 @@ class ProductsController extends Controller
         $detail_product = DB::table('products')
         ->join('categoryproducts','categoryproducts.category_id','=','products.category_id')
         ->join('brandproducts','brandproducts.brand_id','=','products.brand_id')
-        ->where('products.product_id', $product_id)->get();
+        ->where('products.product_id', $product_id)
+        ->get();
 
         foreach($detail_product as $detail){
             $category_id = $detail->category_id;
@@ -235,7 +241,14 @@ class ProductsController extends Controller
         }
         //gallery
         $gallery = Gallery::where('product_id',$product_id)->get();
+        // thong so kỹ thuat
+        $specifi = Pro_details::where('product_id',$product_id)->get();
+        //rating
+        $rating = Rating::where('product_id',$product_id)->avg('rating');
+        $rating = round($rating);
+
         $related_product = DB::table('products')
+
         ->join('categoryproducts','categoryproducts.category_id','=','products.category_id')
         ->join('brandproducts','brandproducts.brand_id','=','products.brand_id')
         ->where('categoryproducts.category_id', $category_id)
@@ -259,7 +272,10 @@ class ProductsController extends Controller
         ->with('gallery',$gallery)
         ->with('category_name',$category_name)
         ->with('brand_name',$brand_name)
-        ->with('product_name',$product_name);;
+        ->with('product_name',$product_name)
+        ->with('specifi',$specifi)
+        ->with('rating',$rating);
+
     }
     //quickview
     public function quickview(Request $request){
@@ -295,11 +311,13 @@ class ProductsController extends Controller
 
     //Comment
     public function delete_comment($comment_id){
+
         DB::table('comment')->where('comment_id', $comment_id)->delete();
         session()->put('message', 'Đã xóa bình luận !!!');
         return redirect('comment');
     }
     public function reply_comment(Request $request){
+
         $data = $request->all();
         $comment = new Comment();
         $comment->comment = $data['comment'];
@@ -311,12 +329,14 @@ class ProductsController extends Controller
 
     }
     public function allow_comment(Request $request){
+
         $data = $request->all();
         $comment = Comment::find($data['comment_id']);
         $comment->comment_status = $data['comment_status'];
         $comment->save();
     }
     public function list_comment(){
+
         $comment = Comment::with('product')->where('comment_parent_comment','=',0)->orderBy('comment_id','DESC')->get();
         $comment_rep = Comment::with('product')->where('comment_parent_comment','>',0)->get();
         return view('admin.list_comment')->with(compact('comment','comment_rep'));
@@ -372,5 +392,13 @@ class ProductsController extends Controller
         }
         echo $output;
 
+    }
+    public function insert_rating(Request $request){
+        $data = $request->all();
+        $rating = new Rating();
+        $rating->product_id = $data['product_id'];
+        $rating->rating = $data['index'];
+        $rating->save();
+        echo 'done';
     }
 }

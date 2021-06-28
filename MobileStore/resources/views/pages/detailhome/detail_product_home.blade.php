@@ -73,7 +73,40 @@
         </div>
 
         <div class="tab-pane fade" id="companyprofile" >
-            {{-- <p>{!! $detail->product_speci !!}</p> --}}
+            @foreach ($specifi as $spec)
+
+            <div class="col-md-6 col-lg-6 col-sm-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Màn hình:</th><td>{{$spec->speci_screen}}</td>
+                    </tr>
+                    <tr>
+                        <th>Hệ điều hành:</th><td>{{$spec->speci_os}}</td>
+                    </tr>
+                    <tr>
+                        <th>Camera trước:</th><td>{{$spec->speci_frontcam}}</td>
+                    </tr>
+                    <tr>
+                        <th>Camera sau:</th><td>{{$spec->speci_backcam}}</td>
+                    </tr>
+                    <tr>
+                        <th>Chipset:</th><td>{{$spec->speci_chip}}</td>
+                    </tr>
+                    <tr>
+                        <th>Ram</th><td>{{$spec->speci_ram}}</td>
+                    </tr>
+                    <tr>
+                        <th>Bộ nhớ trong</th><td>{{$spec->speci_memory}}</td>
+                    </tr>
+                    <tr>
+                        <th>Sim</th><td>{{$spec->speci_sim}}</td>
+                    </tr>
+                    <tr>
+                        <th>Pin , Sạc</th><td>{{$spec->speci_battery}}</td>
+                    </tr>
+                </table>
+            </div>
+            @endforeach
         </div>
 
         <div class="tab-pane fade active in" id="reviews" >
@@ -81,7 +114,7 @@
                 <ul>
                     <li><a href=""><i class="fa fa-user"></i>Admin</a></li>
                     <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                    <li><a href=""><i class="fa fa-calendar-o"></i>16.09.2020</a></li>
+                    <li><a href=""><i class="fa fa-calendar-o"></i>28.06.2021</a></li>
                 </ul>
                 <style type="text/css">
                     .style_comment {
@@ -100,7 +133,7 @@
                 <p><b>Viết đánh giá của bạn</b></p>
 
                  <!------Rating here---------->
-                            {{-- <ul class="list-inline rating"  title="Average Rating">
+                            <ul class="list-inline rating"  title="Average Rating">
                                 @for($count=1; $count<=5; $count++)
                                     @php
                                         if($count<=$rating){
@@ -112,10 +145,10 @@
 
                                     @endphp
 
-                                <li title="star_rating" id="{{$value->product_id}}-{{$count}}" data-index="{{$count}}"  data-product_id="{{$value->product_id}}" data-rating="{{$rating}}" class="rating" style="cursor:pointer; {{$color}} font-size:30px;">&#9733;</li>
+                                <li title="star_rating" id="{{$detail->product_id}}-{{$count}}" data-index="{{$count}}"  data-product_id="{{$detail->product_id}}" data-rating="{{$rating}}" class="rating" style="cursor:pointer; {{$color}} font-size:30px;">&#9733;</li>
                                 @endfor
 
-                            </ul> --}}
+                            </ul>
                             {{-- <ul class="list-inline"  title="Average Rating">
                                 @for($count=1; $count<=5; $count++)
                                     @php
@@ -159,6 +192,7 @@
 </div><!--/category-tab-->
 @endforeach
 <div class="recommended_items"><!--recommended_items-->
+    <br>
     <h2 class="title text-center">Sản phẩm liên quan</h2>
 
     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">

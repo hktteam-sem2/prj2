@@ -30,6 +30,7 @@
                         <th>Giá sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Hình ảnh sản phẩm</th>
+                        <th>Thông số kỹ thuật</th>
                         <th>Danh mục sản phẩm</th>
                         <th>Thương hiệu sản phẩm</th>
                         <th>Trạng thái</th>
@@ -46,6 +47,55 @@
                         <td>{{ $all->product_price }}</td>
                         <td>{{ $all->product_quantity }}</td>
                         <td><img src="upload/product/{{ $all->product_image }}" height="100px" width="100px"></td>
+                        <td>
+                            <a href="" data-toggle="modal" data-target="#myModal{{$all->product_id}}">Hiển thị</a>
+                            <!-- Modal -->
+                            <div id="myModal{{$all->product_id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Thông số kỹ thuật</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <th>Màn hình:</th><td>{{$all->speci_screen}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Hệ điều hành:</th><td>{{$all->speci_os}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Camera trước:</th><td>{{$all->speci_frontcam}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Camera sau:</th><td>{{$all->speci_backcam}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Chipset:</th><td>{{$all->speci_chip}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Ram</th><td>{{$all->speci_ram}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Bộ nhớ trong</th><td>{{$all->speci_memory}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Sim</th><td>{{$all->speci_sim}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Pin , Sạc</th><td>{{$all->speci_battery}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                         <td>{{ $all->category_name }}</td>
                         <td>{{ $all->brand_name }}</td>
                         <td><span class="text-ellipsis">
@@ -60,6 +110,7 @@
                             <a onclick="return confirm('Are you sure to delete ?')" href="/delete_products/{{ $all->product_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px"  class="fa fa-times text-danger text"></i></a>
                         </td>
                         </tr>
+
                         @endforeach
                     </tbody>
                 </table>
@@ -71,4 +122,8 @@
       </div>
     </div>
 </div>
+
+
+
+
 @endsection
