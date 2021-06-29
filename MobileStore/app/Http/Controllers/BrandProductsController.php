@@ -93,7 +93,7 @@ class BrandProductsController extends Controller
         $brand = DB::table('brandproducts')->where('brand_status','1')->orderBy('brand_id')->get();
         $brand_by_id = DB::table('products')
         ->join('brandproducts','products.brand_id','=','brandproducts.brand_id')
-        ->where('products.brand_id',$brand_id)->get();
+        ->where('products.brand_id',$brand_id)->where('product_status','1')->orderBy('product_id')->get();
         $brand_by_name = DB::table('brandproducts')->where('brandproducts.brand_id',$brand_id)->get();
         return view('pages.brandhome.show_brand_home')
         ->with('category',$category)

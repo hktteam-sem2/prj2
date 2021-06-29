@@ -66,10 +66,15 @@ class CheckOutController extends Controller
     public function confirm_order(Request $request){
         $data = $request->all();
         //lay ma giam gia
-        $coupon = CouponModel::where('coupon_code' , $data['order_coupon'])->first();
-        $coupon->coupon_used = $coupon->coupon_used.','.Session::get('customer_id');
-        $coupon->coupon_time = $coupon->coupon_time - 1;
-        $coupon->save();
+        if (Session::get('coupon')) {
+            $product_coupon = $data['order_coupon'];
+            $coupon = CouponModel::where('coupon_code', $data['order_coupon'])->first();
+            $coupon->coupon_used = $coupon->coupon_used.','.Session::get('customer_id');
+            $coupon->coupon_time = $coupon->coupon_time - 1;
+            $coupon->save();
+        }else{
+            $product_coupon = 'No';
+        }
         //lay thong tin van chuyen
         $shipping = new Shipping();
         $shipping->shipping_name = $data['shipping_name'];
@@ -101,7 +106,7 @@ class CheckOutController extends Controller
                 $order_details->product_name = $cart['product_name'];
                 $order_details->product_price = $cart['product_price'];
                 $order_details->product_sales_quantity = $cart['product_qty'];
-                $order_details->product_coupon = $data['order_coupon'];
+                $order_details->product_coupon = $product_coupon;
                 $order_details->save();
             }
         }
@@ -175,6 +180,7 @@ class CheckOutController extends Controller
         }
         if($result==true){
             session()->put('customer_id', $result->customer_id);
+            session()->put('customer_name', $result->customer_name);
             return redirect('/show_checkout');
         }else{
             return redirect('login_checkout');

@@ -475,7 +475,6 @@
     $(document).ready(function(){
 
         load_comment();
-
         function load_comment(){
             var product_id = $('.comment_product_id').val();
             var _token = $('input[name="_token"]').val();
@@ -490,23 +489,28 @@
             });
         }
         $('.send-comment').click(function(){
-            var product_id = $('.comment_product_id').val();
-            var comment_name = $('.comment_name').val();
-            var comment_content = $('.comment_content').val();
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-              url:"{{url('/send-comment')}}",
-              method:"POST",
-              data:{product_id:product_id,comment_name:comment_name,comment_content:comment_content, _token:_token},
-              success:function(data){
+            const check_dangnhap = $('.check_dangnhap').val();
+            if(check_dangnhap==0){
+                alert('Yêu cầu đăng nhập để comment sản phẩm.Xin cảm ơn!');
+            }else{
+                var product_id = $('.comment_product_id').val();
+                var comment_name = $('.comment_name').val();
+                var comment_content = $('.comment_content').val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                url:"{{url('/send-comment')}}",
+                method:"POST",
+                data:{product_id:product_id,comment_name:comment_name,comment_content:comment_content, _token:_token},
+                success:function(data){
 
-                $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công, bình luận đang chờ duyệt</span>');
-                load_comment();
-                $('#notify_comment').fadeOut(9000);
-                $('.comment_name').val('');
-                $('.comment_content').val('');
-              }
-            });
+                    $('#notify_comment').html('<span class="text text-success">Thêm bình luận thành công, bình luận đang chờ duyệt</span>');
+                    load_comment();
+                    $('#notify_comment').fadeOut(9000);
+                    $('.comment_name').val('');
+                    $('.comment_content').val('');
+                }
+                });
+            }
         });
     });
 </script>
@@ -656,6 +660,7 @@
                             var shipping_notes =$('.shipping_notes').val();
                             var shipping_method =$('.payment_select').val();
                             var order_coupon =$('.order_coupon').val();
+
                             var _token = $('input[name="_token"]').val();
 
                             $.ajax({

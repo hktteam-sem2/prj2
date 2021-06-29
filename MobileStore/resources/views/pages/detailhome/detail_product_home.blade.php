@@ -150,8 +150,21 @@
 
                             </ul>
                 <form action="#">
+                    @if(Session::get('customer_id')!=null)
+                    @php
+                        $tendangnhap = Session::get('customer_name');
+
+                    @endphp
+                    <input type="hidden" value="1" class="check_dangnhap">
+                    @else
+                    @php
+                    $tendangnhap = '';
+
+                    @endphp
+                    <input type="hidden" value="0" class="check_dangnhap">
+                    @endif
                     <span>
-                        <input style="width:100%;margin-left: 0" type="text" class="comment_name" placeholder="Tên bình luận"/>
+                        <input style="width:100%;margin-left: 0" type="text" class="comment_name" readonly value="{{ $tendangnhap }}" placeholder="Tên bình luận"/>
 
                     </span>
                     <textarea name="comment" class="comment_content" placeholder="Nội dung bình luận"></textarea>

@@ -110,11 +110,11 @@ class AdminController extends Controller
         $from_date = $data['from_date'];
         $to_date = $data['to_date'];
 
-        $get = Statistical::whereBetween('created_at',[$from_date,$to_date])->orderBy('created_at','ASC')->get();
+        $get = Statistical::whereBetween('order_date',[$from_date,$to_date])->orderBy('order_date','ASC')->get();
 
         foreach($get as $key => $val){
             $chart_data[] = array(
-                'period' => $val->created_at,
+                'period' => $val->order_date,
                 'order' => $val->total_order,
                 'sales' => $val->sales,
                 'profit' => $val->profit,
@@ -142,24 +142,24 @@ class AdminController extends Controller
 
         if($data['dashboard_value']=='7ngay'){
 
-            $get = Statistical::whereBetween('created_at',[$sub7days,$now])->orderBy('created_at' , 'ASC')->get();
+            $get = Statistical::whereBetween('order_date',[$sub7days,$now])->orderBy('order_date' , 'ASC')->get();
 
         }elseif($data['dashboard_value']=='thangtruoc'){
 
-            $get = Statistical::whereBetween('created_at',[$dauthangtruoc,$cuoithangtruoc])->orderBy('created_at' , 'ASC')->get();
+            $get = Statistical::whereBetween('order_date',[$dauthangtruoc,$cuoithangtruoc])->orderBy('order_date' , 'ASC')->get();
 
         }elseif($data['dashboard_value']=='thangnay'){
 
-            $get = Statistical::whereBetween('created_at',[$dauthangnay,$now])->orderBy('created_at' , 'ASC')->get();
+            $get = Statistical::whereBetween('order_date',[$dauthangnay,$now])->orderBy('order_date' , 'ASC')->get();
 
         }else{
 
-            $get = Statistical::whereBetween('created_at',[$sub365days,$now])->orderBy('created_at' , 'ASC')->get();
+            $get = Statistical::whereBetween('order_date',[$sub365days,$now])->orderBy('order_date' , 'ASC')->get();
         }
 
         foreach($get as $key => $val){
             $chart_data[] = array(
-                'period' => $val->created_at,
+                'period' => $val->order_date,
                 'order' => $val->total_order,
                 'sales' => $val->sales,
                 'profit' => $val->profit,
@@ -173,11 +173,11 @@ class AdminController extends Controller
     public function days_order(){
         $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subDays(30)->toDateString();
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
-        $get = Statistical::whereBetween('created_at',[$sub30days,$now])->orderBy('created_at' , 'ASC')->get();
+        $get = Statistical::whereBetween('order_date',[$sub30days,$now])->orderBy('order_date' , 'ASC')->get();
 
         foreach($get as $key => $val){
             $chart_data[] = array(
-                'period' => $val->created_at,
+                'period' => $val->order_date,
                 'order' => $val->total_order,
                 'sales' => $val->sales,
                 'profit' => $val->profit,

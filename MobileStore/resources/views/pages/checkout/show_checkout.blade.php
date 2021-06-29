@@ -14,6 +14,7 @@
                     <div class="bill-to">
                         <p>Vui lòng điền chính xác thông tin bên dưới</p>
                         <div class="form-one">
+
                             <form>
                                 @csrf
                                 <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên người nhận hàng" required>
@@ -24,6 +25,7 @@
                                 @if(Session::get('coupon'))
 
                                     @foreach (Session::get('coupon') as $key => $cou )
+
                                         <input type="hidden" name="order_coupon" class="order_coupon" value="{{ $cou['coupon_code'] }}">
                                     @endforeach
 

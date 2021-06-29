@@ -93,7 +93,7 @@ class CategoryProductsController extends Controller
         $brand = DB::table('brandproducts')->where('brand_status','1')->orderBy('brand_id')->get();
         $category_by_id = DB::table('products')
         ->join('categoryproducts','products.category_id','=','categoryproducts.category_id')
-        ->where('products.category_id',$category_id)->get();
+        ->where('products.category_id',$category_id)->where('product_status','1')->orderBy('product_id')->get();
 
         $category_by_name = DB::table('categoryproducts')->where('categoryproducts.category_id',$category_id)->get();
 

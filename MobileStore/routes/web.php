@@ -41,7 +41,7 @@ Route::post('/dashboard-filter','AdminController@dashboard_filter');
 
 
 //categoryproducts
-Route::group(['middleware' => 'auth.roles'], function() {
+// Route::group(['middleware' => 'auth.roles'], function() {
     Route::get('/add_categoryproducts','CategoryProductsController@add_categoryproducts');
     Route::get('/all_categoryproducts','CategoryProductsController@all_categoryproducts');
     Route::get('/unactive_categoryproducts/{category_id}','CategoryProductsController@unactive_categoryproducts');
@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth.roles'], function() {
     Route::get('/edit_categoryproducts/{category_id}','CategoryProductsController@edit_categoryproducts');
     Route::post('/update_categoryproducts/{category_id}','CategoryProductsController@update_categoryproducts');
     Route::get('/delete_categoryproducts/{caterory_id}','CategoryProductsController@delete_categoryproducts');
-});
+// });
 
 
 //Coupon -- backend
@@ -94,12 +94,14 @@ Route::group(['middleware' => 'auth.roles'], function() {
     Route::post('/quickview','ProductsController@quickview');
     Route::get('/comment','ProductsController@list_comment');
     Route::get('/delete-comment/{comment_id}','ProductsController@delete_comment');
-    Route::post('/load-comment','ProductsController@load_comment');
-    Route::post('/send-comment','ProductsController@send_comment');
-    Route::post('/allow-comment','ProductsController@allow_comment');
-    Route::post('/reply-comment','ProductsController@reply_comment');
-    Route::post('/insert-rating','ProductsController@insert_rating');
+
 });
+//Product-client
+Route::post('/load-comment','ProductsController@load_comment');
+Route::post('/send-comment','ProductsController@send_comment');
+Route::post('/allow-comment','ProductsController@allow_comment');
+Route::post('/reply-comment','ProductsController@reply_comment');
+Route::post('/insert-rating','ProductsController@insert_rating');
 
 //cart
 Route::post('/add_cart','CartController@add_cart');

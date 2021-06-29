@@ -19,14 +19,14 @@ use App\Rating;
 class ProductsController extends Controller
 {
     //check xem admin co dang nhap hay ko
-    // public function AuthLogin(){
-    //     $admin_id =Auth::id();
-    //     if($admin_id){
-    //         return Redirect::to('dashboard');
-    //     }else{
-    //         return Redirect::to('/login-auth')->send();
-    //     }
-    // }
+    public function AuthLogin(){
+        $admin_id =Auth::id();
+        if($admin_id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('/login-auth')->send();
+        }
+    }
 
     //dang nhap account customer
     public function login_customer(Request $request){
@@ -48,7 +48,7 @@ class ProductsController extends Controller
 
       //thêm danh mục sản phẩm
       public function add_products(){
-            // $this->AuthLogin();
+            $this->AuthLogin();
           $category = DB::table('categoryproducts')->orderBy('category_id')->get();
           $brand = DB::table('brandproducts')->orderBy('brand_id')->get();
         return view('admin.add_products')->with('category',$category)->with('brand',$brand);
@@ -106,7 +106,7 @@ class ProductsController extends Controller
 
      //hiển thị tất cả danh mục sản phẩm
      public function all_products(){
-        // $this->AuthLogin();
+        $this->AuthLogin();
         $allproduct = DB::table('products')
         ->join('pro_details','pro_details.product_id','=','products.product_id')
         ->join('categoryproducts','categoryproducts.category_id','=','products.category_id')
@@ -132,7 +132,7 @@ class ProductsController extends Controller
 
     //edit danh muc san pham
     public function edit_products($product_id){
-        // $this->AuthLogin();
+        $this->AuthLogin();
         $category = DB::table('categoryproducts')->orderBy('category_id')->get();
         $brand = DB::table('brandproducts')->orderBy('brand_id')->get();
         // $edit = DB::table('products')->where('product_id', $product_id)->first();
@@ -203,7 +203,7 @@ class ProductsController extends Controller
 
     //xoa danh muc san pham
     public function delete_products($product_id){
-        // $this->AuthLogin();
+        $this->AuthLogin();
         DB::table('products')->where('product_id', $product_id)->delete();
         session()->put('message', 'delete Successfull !!!');
         return redirect('all_products');
@@ -253,6 +253,7 @@ class ProductsController extends Controller
         ->join('brandproducts','brandproducts.brand_id','=','products.brand_id')
         ->where('categoryproducts.category_id', $category_id)
         ->where('brandproducts.brand_id', $brand_id)
+        ->where('product_status','1')->orderBy('product_id')
         ->whereNotIn('products.product_id', [$product_id])->get();
 
         //update view product
@@ -356,8 +357,10 @@ class ProductsController extends Controller
     }
     public function load_comment(Request $request){
         $product_id = $request->product_id;
-        $comment = Comment::where('comment_product_id',$product_id)->where('comment_parent_comment','=',0)->where('comment_status',0)->get();//comment_status =0 : show, =1 : hide
-        $comment_rep = Comment::with('product')->where('comment_parent_comment','>',0)->get();
+
+            $comment = Comment::where('comment_product_id', $product_id)->where('comment_parent_comment', '=', 0)->where('comment_status', 0)->get();//comment_status =0 : show, =1 : hide
+            $comment_rep = Comment::with('product')->where('comment_parent_comment', '>', 0)->get();
+
         $output = '';
         foreach($comment as $comm){
             $output.= '
