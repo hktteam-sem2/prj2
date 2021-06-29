@@ -32,80 +32,74 @@ Route::get('/chi-tiet-san-pham/{product_id}','ProductsController@detail_product'
 
 
 //backend
-Route::get('/admin','AdminController@login');
-Route::post('/postlogin','AdminController@postlogin');
+Route::get('/dashboard','AdminController@show_dashboard');
 Route::get('/logout','AdminController@logout');
-Route::get('/dashboard','AdminController@showDasboard');
+Route::post('/admin-dashboard','AdminController@dashboard');
+Route::post('/days-order','AdminController@days_order');
+Route::post('/filter-by-date','AdminController@filter_by_date');
+Route::post('/dashboard-filter','AdminController@dashboard_filter');
 
 
 //categoryproducts
-Route::get('/add_categoryproducts','CategoryProductsController@add_categoryproducts');
+Route::group(['middleware' => 'auth.roles'], function() {
+    Route::get('/add_categoryproducts','CategoryProductsController@add_categoryproducts');
+    Route::get('/all_categoryproducts','CategoryProductsController@all_categoryproducts');
+    Route::get('/unactive_categoryproducts/{category_id}','CategoryProductsController@unactive_categoryproducts');
+    Route::get('/active_categoryproducts/{category_id}','CategoryProductsController@active_categoryproducts');
+    Route::post('/postadd_categoryproducts','CategoryProductsController@postadd_categoryproducts');
+    Route::get('/edit_categoryproducts/{category_id}','CategoryProductsController@edit_categoryproducts');
+    Route::post('/update_categoryproducts/{category_id}','CategoryProductsController@update_categoryproducts');
+    Route::get('/delete_categoryproducts/{caterory_id}','CategoryProductsController@delete_categoryproducts');
+});
 
-Route::get('/all_categoryproducts','CategoryProductsController@all_categoryproducts');
-
-Route::get('/unactive_categoryproducts/{category_id}','CategoryProductsController@unactive_categoryproducts');
-
-Route::get('/active_categoryproducts/{category_id}','CategoryProductsController@active_categoryproducts');
-
-Route::post('/postadd_categoryproducts','CategoryProductsController@postadd_categoryproducts');
-
-Route::get('/edit_categoryproducts/{category_id}','CategoryProductsController@edit_categoryproducts');
-
-Route::post('/update_categoryproducts/{category_id}','CategoryProductsController@update_categoryproducts');
-
-Route::get('/delete_categoryproducts/{caterory_id}','CategoryProductsController@delete_categoryproducts');
 
 //Coupon -- backend
-Route::get('/add_coupon','CouponController@add_coupon');
+    Route::get('/add_coupon', 'CouponController@add_coupon');
 
-Route::post('/postadd_coupon','CouponController@postadd_coupon');
+    Route::post('/postadd_coupon', 'CouponController@postadd_coupon');
 
-Route::get('/all_coupon','CouponController@all_coupon');
+    Route::get('/all_coupon', 'CouponController@all_coupon');
 
-Route::get('/delete_coupon/{coupon_id}','CouponController@delete_coupon');
+    Route::get('/delete_coupon/{coupon_id}', 'CouponController@delete_coupon');
 
 //Coupon -- frontend
 Route::post('/check-coupon','CartController@check_coupon');
-
 Route::get('/unset-coupon','CartController@unset_coupon');
 
 
 //brandproducts
-Route::get('/add_brandproducts','BrandProductsController@add_brandproducts');
-
-Route::get('/all_brandproducts','BrandProductsController@all_brandproducts');
-
-Route::get('/unactive_brandproducts/{brand_id}','BrandProductsController@unactive_brandproducts');
-
-Route::get('/active_brandproducts/{brand_id}','BrandProductsController@active_brandproducts');
-
-Route::post('/postadd_brandproducts','BrandProductsController@postadd_brandproducts');
-
-Route::get('/edit_brandproducts/{brand_id}','BrandProductsController@edit_brandproducts');
-
-Route::post('/update_brandproducts/{brand_id}','BrandProductsController@update_brandproducts');
-
-Route::get('/delete_brandproducts/{brand_id}','BrandProductsController@delete_brandproducts');
+Route::group(['middleware' => 'auth.roles'], function() {
+    Route::get('/add_brandproducts','BrandProductsController@add_brandproducts');
+    Route::get('/all_brandproducts','BrandProductsController@all_brandproducts');
+    Route::get('/unactive_brandproducts/{brand_id}','BrandProductsController@unactive_brandproducts');
+    Route::get('/active_brandproducts/{brand_id}','BrandProductsController@active_brandproducts');
+    Route::post('/postadd_brandproducts','BrandProductsController@postadd_brandproducts');
+    Route::get('/edit_brandproducts/{brand_id}','BrandProductsController@edit_brandproducts');
+    Route::post('/update_brandproducts/{brand_id}','BrandProductsController@update_brandproducts');
+    Route::get('/delete_brandproducts/{brand_id}','BrandProductsController@delete_brandproducts');
+});
 
 
 //Products
-Route::get('/add_products','ProductsController@add_products');
-
-Route::get('/all_products','ProductsController@all_products');
-
-Route::get('/unactive_products/{product_id}','ProductsController@unactive_products');
-
-Route::get('/active_products/{product_id}','ProductsController@active_products');
-
-Route::post('/postadd_products','ProductsController@postadd_products');
-
-Route::get('/edit_products/{product_id}','ProductsController@edit_products');
-
-Route::post('/update_products/{product_id}','ProductsController@update_products');
-
-Route::get('/delete_products/{prodcut_id}','ProductsController@delete_products');
-
-Route::post('/export-product','ProductsController@export_product');
+Route::group(['middleware' => 'auth.roles'], function() {
+    Route::get('/add_products','ProductsController@add_products');
+    Route::get('/all_products','ProductsController@all_products');
+    Route::get('/unactive_products/{product_id}','ProductsController@unactive_products');
+    Route::get('/active_products/{product_id}','ProductsController@active_products');
+    Route::post('/postadd_products','ProductsController@postadd_products');
+    Route::get('/edit_products/{product_id}','ProductsController@edit_products');
+    Route::post('/update_products/{product_id}','ProductsController@update_products');
+    Route::get('/delete_products/{prodcut_id}','ProductsController@delete_products');
+    Route::post('/export-product','ProductsController@export_product');
+    Route::post('/quickview','ProductsController@quickview');
+    Route::get('/comment','ProductsController@list_comment');
+    Route::get('/delete-comment/{comment_id}','ProductsController@delete_comment');
+    Route::post('/load-comment','ProductsController@load_comment');
+    Route::post('/send-comment','ProductsController@send_comment');
+    Route::post('/allow-comment','ProductsController@allow_comment');
+    Route::post('/reply-comment','ProductsController@reply_comment');
+    Route::post('/insert-rating','ProductsController@insert_rating');
+});
 
 Route::post('/quickview','ProductsController@quickview');
 Route::get('/comment','ProductsController@list_comment');
@@ -155,13 +149,33 @@ Route::get('/unactive_banner/{slider_id}','SliderController@unactive_banner');
 Route::get('/active_banner/{slider_id}','SliderController@active_banner');
 Route::get('/delete_banner/{slider_id}','SliderController@delete_banner');
 
-//Lien he trang
+//customer
+Route::get('/all_customer','CustomerConTroller@all_customers');
+Route::get('/edit_customers/{customer_id}','CustomerConTroller@edit_customers');
+Route::post('/update_customers/{customer_id}','CustomerConTroller@update_customers');
+Route::get('/delete_customers/{customer_id}','CustomerConTroller@delete_customers');
 
+//authentication role
+Route::get('/register-auth','AuthController@register_auth');
+Route::get('/login-auth','AuthController@login_auth');
+Route::get('/logout-auth','AuthController@logout_auth');
+
+Route::post('/register','AuthController@register');
+Route::post('/login','AuthController@login');
+
+Route::get('users','UserController@index');
+Route::get('add-users','UserController@add_users');
+Route::post('store-users','UserController@store_users');
+Route::get('delete-user-roles/{admin_id}','UserController@delete_user_roles')->middleware('auth.roles');
+Route::post('assign-roles','UserController@assign_roles')->middleware('auth.roles');
+Route::get('impersonate/{admin_id}','UserController@impersonate');
+
+
+//thong tin lien he
 Route::get('/lien-he','ContactController@lien_he' );
 Route::get('/information','ContactController@information' );
 Route::post('/save-info','ContactController@save_info' );
 Route::post('/update-info/{info_id}','ContactController@update_info');
-
 
 //Gallery
 Route::get('/add-gallery/{product_id}','GalleryController@add_gallery');
@@ -170,8 +184,4 @@ Route::post('/insert-gallery/{pro_id}','GalleryController@insert_gallery');
 Route::post('/update-gallery-name','GalleryController@update_gallery_name');
 Route::post('/delete-gallery','GalleryController@delete_gallery');
 Route::post('update-gallery','GalleryController@update_gallery');
-
-
-//Attribute
-Route::get('/show-spec/{product_id}','AttributeController@show_spec');
 

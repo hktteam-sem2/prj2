@@ -69,7 +69,7 @@
 
             </td>
             <td>{{ $comm->comment_date }}</td>
-            <td><a href="/chi-tiet/{{$comm->product->product_id}}" target="_blank">{{ $comm->product->product_name }}</a></td>
+            <td><a href="/chi-tiet-san-pham/{{$comm->product->product_id}}" target="_blank">{{ $comm->product->product_name }}</a></td>
             <td>
               <a onclick="return confirm('Bạn có chắc là muốn xóa bình luận này ko?')" href="/delete-comment/{{ $comm->comment_id }}" class="active styling-edit" ui-toggle-class="">
                 <i class="fa fa-times text-danger text"></i>

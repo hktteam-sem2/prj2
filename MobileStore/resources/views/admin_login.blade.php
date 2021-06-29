@@ -23,25 +23,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <div class="log-w3">
-<div class="w3layouts-main">
-	<h2>Đăng Nhập Admin </h2>
-    <?php
-    $message = session()->get('message');
-    if($message){
-        echo '<span style="color: red">'.$message.'</span>';
-        session()->put('message', null);
-    }
-    ?>
-		<form action="/postlogin" method="post">
-            @csrf
-			<input type="email" class="ggg" name="admin_email" placeholder="E-MAIL" required="">
-			<input type="password" class="ggg" name="admin_password" placeholder="PASSWORD" required="">
-			<span><input type="checkbox" />Remember Me</span>
-			<h6><a href="#">Quên mật khẩu?</a></h6>
-				<div class="clearfix"></div>
-				<input type="submit" value="Đăng Nhập" name="login">
-		</form>
-</div>
+    <div class="w3layouts-main">
+        <h2>Đăng nhập</h2>
+        <?php
+        $message = Session::get('message');
+        if($message){
+            echo '<span class="text-alert">'.$message.'</span>';
+            Session::put('message',null);
+        }
+        ?>
+            <form action="{{URL::to('/admin-dashboard')}}" method="post">
+                {{ csrf_field() }}
+                @foreach($errors->all() as $val)
+                <ul>
+                    <li>{{$val}}</li>
+                </ul>
+                @endforeach
+                <input type="text"  class="ggg" name="admin_email" placeholder="Điền email" >
+                <input type="password" class="ggg" name="admin_password" placeholder="Điền password" >
+
+                <span><input type="checkbox" />Nhớ đăng nhập</span>
+                <h6><a href="#">Quên mật khẩu</a></h6>
+                    <div class="clearfix"></div>
+                    <input type="submit" value="Đăng nhập" name="login">
+            </form>
+            <a href="{{url('/register-auth')}}">Đăng ký Auth</a> |
+            <a href="{{url('/login-auth')}}">Đăng nhập Auth</a>
+    </div>
 </div>
 <script src="backend/js/bootstrap.js"></script>
 <script src="backend/js/jquery.dcjqaccordion.2.7.js"></script>

@@ -41,6 +41,14 @@
                         <label>Giảm theo % hoặc giảm theo tiền</label>
                         <input type="text" class="form-control" name="coupon_number" placeholder="Enter email">
                     </div>
+                    <div class="form-group">
+                        <label>Ngày bắt đầu</label>
+                        <input type="text" class="form-control" id="start_coupon" name="coupon_date_start">
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày kết thúc</label>
+                        <input type="text" class="form-control" id="end_coupon" name="coupon_date_end">
+                    </div>
                     <button type="submit" class="btn btn-info">Thêm</button>
                 </form>
             </div>

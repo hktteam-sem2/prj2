@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<meta name="csrf-token" content="{{csrf_token()}}">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <meta name="csrf-token" content="{{csrf_token()}}">
 <!-- bootstrap-css -->
@@ -28,10 +29,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 <!-- //calendar -->
+<!-- datatable -->
+<link rel="stylesheet" href="{{ asset('backend/css/jquery.dataTables.min.css') }}" type="text/css"/>
+<!-- //datatable -->
+<link rel="stylesheet" href="{{ asset('backend/css/jquery-ui.css') }}">
+{{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
+<link rel="stylesheet" href="{{ asset('backend/css/morris.css') }}">
+{{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"> --}}
 <!-- //font-awesome icons -->
 {{-- <script src="{{ asset('backend/js/jquery2.0.3.min.js') }}"></script> --}}
 <script src="{{ asset('backend/js/raphael-min.js') }}"></script>
 <script src="{{ asset('backend/js/morris.js') }}"></script>
+<<<<<<< HEAD
+=======
+<script src="{{ asset('backend/js/jquery.dataTables.min.js') }}"></script>
+>>>>>>> master
 
 </head>
 <body>
@@ -61,18 +73,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <img alt="" src="{{ asset('backend/images/2.png') }}">
                 <span class="username">
                     <?php
-                        $name = session()->get('admin_name');
-                        if($name){
-                            echo $name;
-                        }
+                    if(Session::get('login_normal')){
+
+                        $name = Session::get('admin_name');
+                    }else{
+                        $name = Auth::user()->admin_name;
+                    }
+
+                    if($name){
+                        echo $name;
+                    }
                     ?>
                 </span>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu extended logout">
                 <li><a href="#"><i class=" fa fa-suitcase"></i>Prolife</a></li>
-                <li><a href="#"><i class="fa fa-cog"></i>Setting</a></li>
-                <li><a href="/logout"><i class="fa fa-key"></i>Log out</a></li>
+                <li><a href="#"><i class="fa fa-cog"></i>Cài đặt</a></li>
+                <li><a href="/logout-auth"><i class="fa fa-key"></i>Đăng xuất</a></li>
             </ul>
         </li>
         <!-- user login dropdown end -->
@@ -94,13 +112,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Tổng Quan</span>
                     </a>
                 </li>
+<<<<<<< HEAD
+=======
+                @hasrole(['admin','author'])
+>>>>>>> master
                 <li>
                     <a href="/information">
                         <i class="fa fa-dashboard"></i>
                         <span>Thông tin website</span>
                     </a>
                 </li>
+<<<<<<< HEAD
 
+=======
+                <li>
+                    <a class="active" href="/all_customer">
+                        <i class="fa fa-user"></i>
+                        <span>Quản lý Khách hàng</span>
+                    </a>
+                </li>
+                @endhasrole
+>>>>>>> master
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -169,7 +201,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <li><a href="/comment">Liệt kê bình luận</a></li>
                     </ul>
                 </li>
+<<<<<<< HEAD
 
+=======
+                @hasrole(['admin'])
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="{{URL::to('/add-users')}}">Thêm user</a></li>
+                        <li><a href="{{URL::to('/users')}}">Liệt kê user</a></li>
+                    </ul>
+                </li>
+                @endhasrole
+>>>>>>> master
             </ul>
         </div>
         <!-- sidebar menu end-->
@@ -182,11 +229,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         @yield('admin_content')
     </section>
  <!-- footer -->
-		  <div class="footer">
+		  {{-- <div class="footer">
 			<div class="wthree-copyright">
-			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+			  <p>© 2021 HKT-Admin</p>
 			</div>
-		  </div>
+		  </div> --}}
   <!-- / footer -->
 </section>
 <!--main content end-->
@@ -274,6 +321,79 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                    $('#notify_comment').html('<span class="text text-alert">Trả lời bình luận thành công</span>');
                    location.reload();
 
+<<<<<<< HEAD
+=======
+{{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
+<script src="{{ asset('backend/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('backend/js/morris.js') }}"></script>
+<script src="{{ asset('backend/js/raphael-min.js') }}"></script>
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> --}}
+<script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
+<script>
+    CKEDITOR.replace('addcontact');
+    CKEDITOR.replace('product_desc');
+    CKEDITOR.replace('editdesc');
+</script>
+
+<!--Xu ly duyet binh luan-->
+<script type="text/javascript">
+    $('.comment_duyet_btn').click(function(){
+        var comment_status = $(this).data('comment_status');
+
+        var comment_id = $(this).data('comment_id');
+        var comment_product_id = $(this).attr('id');
+        if(comment_status==0){
+            var alert = 'Thay đổi thành duyệt thành công';
+        }else{
+            var alert = 'Thay đổi thành không duyệt thành công';
+        }
+          $.ajax({
+                url:"{{url('/allow-comment')}}",
+                method:"POST",
+
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{comment_status:comment_status,comment_id:comment_id,comment_product_id:comment_product_id},
+                success:function(data){
+                    location.reload();
+                   $('#notify_comment').html('<span class="text text-alert">'+alert+'</span>');
+
+                }
+            });
+
+
+    });
+    $('.btn-reply-comment').click(function(){
+        var comment_id = $(this).data('comment_id');
+
+        var comment = $('.reply_comment_'+comment_id).val();
+
+
+
+        var comment_product_id = $(this).data('product_id');
+
+
+        // alert(comment);
+        // alert(comment_id);
+        // alert(comment_product_id);
+
+          $.ajax({
+                url:"{{url('/reply-comment')}}",
+                method:"POST",
+
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{comment:comment,comment_id:comment_id,comment_product_id:comment_product_id},
+                success:function(data){
+                    $('.reply_comment_'+comment_id).val('');
+
+                   $('#notify_comment').html('<span class="text text-alert">Trả lời bình luận thành công</span>');
+                   location.reload();
+
+>>>>>>> master
                 }
             });
 
@@ -281,7 +401,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 </script>
 <!--End xu ly duyet binh luan-->
+<<<<<<< HEAD
 <!--Xu ly Gallery-->
+=======
+<!-- datepicker ma giam gia -->
+<script>
+    $( function() {
+      $( "#start_coupon" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "dd/mm/yy",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+      $( "#end_coupon" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "dd/mm/yy",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+    } );
+</script>
+<!--  end datepicker ma giam gia -->
+
+<!-- xu ly Gallery -->
+>>>>>>> master
 <script type="text/javascript">
     $(document).ready(function(){
         load_gallery();
@@ -382,6 +527,141 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 </script>
 <!-- End xu ly Gallery -->
+<<<<<<< HEAD
+=======
+
+<!-- Morris Bar -->
+<script>
+    $(document).ready(function(){
+        chart30daysorder();
+
+        var chart = new Morris.Bar({
+            element: 'myfirstchart',
+            lineColors: ['#819C79' , '#fc8710' , '#FF6541' , '#A4ADD3' , '#766856'],
+            pointFillColors: ['#ffffff'],
+            pointStrokeColors: ['black'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
+            parseTime: false,
+            xkey: 'period',
+            ykeys: ['order' , 'sales' , 'profit' , 'quantity'],
+            behaveLikeLine: true,
+            labels: ['đơn hàng' , 'doanh số' , 'lợi nhuận' ,'số lượng']
+        });
+
+
+        function chart30daysorder(){
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ url('/days-order') }}",
+                method: "POST",
+                dataType: "JSON",
+                data:{
+                    _token:_token
+                },
+
+                success:function(data){
+                    chart.setData(data);
+                }
+            });
+        }
+
+        $('#btn-dashboard-filter').click(function(){
+            var _token = $('input[name="_token"]').val();
+            var from_date = $('#datepicker').val();
+            var to_date = $('#datepicker2').val();
+            $.ajax({
+                url: "{{url('/filter-by-date')}}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    from_date:from_date,
+                    to_date:to_date,
+                    _token:_token
+                },
+                success:function(data){
+                    chart.setData(data);
+                }
+            });
+        });
+
+        $('.dashboard-filter').change(function(){
+            var dashboard_value = $(this).val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{url('/dashboard-filter')}}",
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    dashboard_value:dashboard_value,
+                    _token:_token
+                },
+                success:function(data){
+                    chart.setData(data);
+                }
+            });
+        });
+    });
+</script>
+<!-- End Morris Bar -->
+
+<!-- Morris donut -->
+<script>
+    $(document).ready(function(){
+       var donut =  Morris.Donut({
+        element: 'donut',
+        resize: true,
+        colors: [
+            '#a8328e',
+            // '#33CC00',
+            '#61a1ce',
+            '#ce8f61'
+        ],
+        //labelColor:"#cccccc", // text color
+        //backgroundColor: '#333333', // border color
+        data: [
+            {label:"Sản Phẩm", value:{{ $products }}},
+            // {label:"Sản Phẩm xem nhiều", value:{{ $product_views }}},
+            {label:"Đơn Hàng", value:{{ $orders}}},
+            {label:"Khách Hàng", value:{{ $customers }}},
+        ]
+        });
+    });
+</script>
+<!-- End Morris donut -->
+
+<!-- datepicker -->
+<script>
+    $( function() {
+      $( "#datepicker" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+      $( "#datepicker2" ).datepicker({
+        prevText: "Tháng trước",
+        nextText: "Tháng sau",
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7" , "Chủ nhật"],
+        duration: "slow"
+      });
+    } );
+</script>
+<!--  end datepicker -->
+
+
+<!-- datatable -->
+<script>
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+</script>
+<!--  End datatable -->
+
+>>>>>>> master
 <!-- quan ly so luong ban ton -->
 
     <!-- xu ly nut cap nhat  -->

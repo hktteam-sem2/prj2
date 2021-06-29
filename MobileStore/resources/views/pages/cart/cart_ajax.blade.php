@@ -95,6 +95,7 @@
                                                     @php
                                                         $total_coupon = $total-$cou['coupon_number'];
                                                         echo '<p><li>Tổng giảm: '.number_format($total_coupon,0,',','.').' vnđ</li></p>';
+                                                        // echo '<p><li>Tổng giảm: '.number_format($cou['coupon_number'],0,',','.').' vnđ</li></p>';
                                                     @endphp
                                                 </p>
                                                 <p><li>Thành tiền(Có mã giảm giá): {{ number_format($total_coupon,0,',','.') }} vnđ</li></p>

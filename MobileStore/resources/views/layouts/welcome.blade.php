@@ -125,7 +125,7 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="/trang-chu" class="active">Trang Chủ</a></li>
-								<li class="dropdown"><a href="#">Danh Mục<i class="fa fa-angle-down"></i></a>
+                                <li class="dropdown"><a href="#">Danh Mục<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         @foreach($category as $cate)
                                         <li><a href="/danh-muc-san-pham/{{ $cate->category_id }}">{{ $cate->category_name }}</a></li>
@@ -411,6 +411,65 @@
     <script src="{{ asset('frontend/js/lightgallery-all.min.js') }}"></script>
     <script src="{{ asset('frontend/js/lightslider.js') }}"></script>
     <script src="{{ asset('frontend/js/prettify.js') }}"></script>
+<!--Danh gia sao-->
+<script type="text/javascript">
+    function remove_background(product_id)
+     {
+      for(var count = 1; count <= 5; count++)
+      {
+       $('#'+product_id+'-'+count).css('color', '#ccc');
+      }
+    }
+    //hover chuột đánh giá sao
+   $(document).on('mouseenter', '.rating', function(){
+      var index = $(this).data("index");
+      var product_id = $(this).data('product_id');
+    // alert(index);
+    // alert(product_id);
+      remove_background(product_id);
+      for(var count = 1; count<=index; count++)
+      {
+       $('#'+product_id+'-'+count).css('color', '#ffcc00');
+      }
+    });
+   //nhả chuột ko đánh giá
+   $(document).on('mouseleave', '.rating', function(){
+      var index = $(this).data("index");
+      var product_id = $(this).data('product_id');
+      var rating = $(this).data("rating");
+      remove_background(product_id);
+      //alert(rating);
+      for(var count = 1; count<=rating; count++)
+      {
+       $('#'+product_id+'-'+count).css('color', '#ffcc00');
+      }
+     });
+
+    //click đánh giá sao
+    $(document).on('click', '.rating', function(){
+          var index = $(this).data("index");
+          var product_id = $(this).data('product_id');
+            var _token = $('input[name="_token"]').val();
+          $.ajax({
+           url:"{{url('insert-rating')}}",
+           method:"POST",
+           data:{index:index, product_id:product_id,_token:_token},
+           success:function(data)
+           {
+            if(data == 'done')
+            {
+             alert("Bạn đã đánh giá "+index +" trên 5");
+            }
+            else
+            {
+             alert("Lỗi đánh giá");
+            }
+           }
+    });
+
+    });
+</script>
+<!--End danh gia sao-->
 <!--Comment-->
 <script type="text/javascript">
     $(document).ready(function(){
@@ -551,7 +610,7 @@
     });
 </script>
 <!--End Autocomplete-->
-<!--/Xu ly gallery -->
+    <!--/Xu ly gallery -->
     <script type="text/javascript">
         $(document).ready(function() {
            $('#imageGallery').lightSlider({

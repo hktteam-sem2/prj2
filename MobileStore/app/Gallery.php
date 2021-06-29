@@ -12,4 +12,5 @@ class Gallery extends Model
     ];
     protected $primaryKey = 'gallery_id';
     protected $table = 'gallery';
+
 }

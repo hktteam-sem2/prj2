@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Shipping;
 use App\Order;
+Use App\CouponModel;
 use App\Orderdetails;
 session_start();
 class CheckOutController extends Controller
@@ -64,6 +65,12 @@ class CheckOutController extends Controller
     //xác nhận đặt hàng
     public function confirm_order(Request $request){
         $data = $request->all();
+        //lay ma giam gia
+        $coupon = CouponModel::where('coupon_code' , $data['order_coupon'])->first();
+        $coupon->coupon_used = $coupon->coupon_used.','.Session::get('customer_id');
+        $coupon->coupon_time = $coupon->coupon_time - 1;
+        $coupon->save();
+        //lay thong tin van chuyen
         $shipping = new Shipping();
         $shipping->shipping_name = $data['shipping_name'];
         $shipping->shipping_phone = $data['shipping_phone'];
@@ -73,7 +80,7 @@ class CheckOutController extends Controller
         $shipping->save();
         $shipping_id = $shipping->shipping_id;
 
-
+        //lay hoa don
         $order = new Order();
         $check_code = substr(md5(microtime()),rand(0,26),5);
         $order->customer_id = Session::get('customer_id');
@@ -85,7 +92,7 @@ class CheckOutController extends Controller
         $order->save();
 
 
-
+        //lay chi tiet hoa don thong qua cart ajax
         if(Session::get('cart')){
             foreach(Session::get('cart') as $key => $cart){
                 $order_details = new Orderdetails();
@@ -163,14 +170,15 @@ class CheckOutController extends Controller
         $result = DB::table('customer')
         ->where('customer_email' , $customer_email)
         ->where('customer_password' , $customer_password)->first();
-
+        if(Session::get('coupon')==true){
+            Session::forget('coupon');
+        }
         if($result==true){
             session()->put('customer_id', $result->customer_id);
-            return redirect('/trang-chu');
+            return redirect('/show_checkout');
         }else{
             return redirect('login_checkout');
         }
-
     }
 
     // quay lai phan backend

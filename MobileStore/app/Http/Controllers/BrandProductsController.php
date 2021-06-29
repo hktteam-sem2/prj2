@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -11,18 +12,18 @@ class BrandProductsController extends Controller
 {
 
     //check xem admin co dang nhap hay ko
-    public function CheckAdminLogin(){
-        $admin_id = session()->get('admin_id');
-        if($admin_id==true){
-            return redirect('/dashboard');
+    public function AuthLogin(){
+        $admin_id =Auth::id();
+        if($admin_id){
+            return Redirect::to('dashboard');
         }else{
-            return redirect('/admin')->send();
+            return Redirect::to('login-auth')->send();
         }
     }
 
     //thêm danh mục sản phẩm
     public function add_brandproducts(){
-        $this->CheckAdminLogin();
+        $this->AuthLogin();
         return view('admin.add_brandproducts');
     }
     public function postadd_brandproducts(Request $request){
@@ -38,7 +39,7 @@ class BrandProductsController extends Controller
 
      //hiển thị tất cả danh mục sản phẩm
      public function all_brandproducts(){
-        $this->CheckAdminLogin();
+        $this->AuthLogin();
         $allbrand = DB::table('brandproducts')->get();
         return view('admin.all_brandproducts')->with([
             'allbrand' => $allbrand

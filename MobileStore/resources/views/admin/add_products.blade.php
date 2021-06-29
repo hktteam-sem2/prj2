@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label>Mô Tả</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc" data-validation="length" data-validation-length="min10" data-validation-error-msg="Làm ơn điền ít nhất 10 ký tự" placeholder="Desc Product"></textarea>
+                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc" id="product_desc" placeholder="Desc Product"></textarea>
                     </div>
                     <label>Thông số kỹ thuật</label><br>
                     <div class="form-group">

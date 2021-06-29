@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
+    //check xem admin co dang nhap hay ko
+    public function CheckAdminLogin(){
+        $admin_id = Auth::id();
+        if($admin_id==true){
+            return redirect('/dashboard');
+        }else{
+            return redirect('/login-auth')->send();
+        }
+    }
     public function lien_he(){
+        $this->CheckAdminLogin();
         $slider = DB::table('slider')->orderByDesc('slider_id')->where('slider_status','1')->take(4)->get();
          //danh muc
         $category = DB::table('categoryproducts')->where('category_status','1')->orderBy('category_id')->get();
@@ -18,6 +29,7 @@ class ContactController extends Controller
         return view('pages.lienhe.contact')->with('category',$category)->with('brand',$brand)->with('slider',$slider)->with('contact',$contact);
     }
     public function information(){
+        $this->CheckAdminLogin();
         $contact = Contact::where('info_id',1)->get();
         return view('admin.add_information')->with(compact('contact'));
     }
@@ -42,6 +54,7 @@ class ContactController extends Controller
     }
 
     public function update_info(Request $request,$info_id){
+        $this->CheckAdminLogin();
     	$data = $request->all();
     	$contact = Contact::find($info_id);
     	$contact->info_contact = $data['info_contact'];

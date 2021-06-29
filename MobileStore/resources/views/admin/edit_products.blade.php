@@ -40,14 +40,17 @@
                     </div>
                     <div class="form-group">
                         <label>Mô Tả</label>
-                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc">{{ $edit->product_desc }}</textarea>
+                        <textarea style="resize: none" rows="5" class="form-control" name="product_desc" id="editdesc">{{ $edit->product_desc }}</textarea>
                     </div>
-                    {{-- <label>Thông số kỹ thuật</label><br>
+                    <label>Thông số kỹ thuật</label><br>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="speci_id" value="{{ $edit->pro_details->speci_id }}">
+                    </div>
                     <div class="form-group">
                         <label>Màn hình: </label>
                         <input type="text" class="form-control" name="screen" value="{{ $edit->pro_details->speci_screen }}">
                     </div>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label>Hệ điều hành: </label>
                         <input type="text" class="form-control" name="os" value="{{ $edit->pro_details->speci_os }}">
                     <div class="form-group">
@@ -74,7 +77,8 @@
                     <div class="form-group">
                         <label>Pin: </label>
                         <input type="text" class="form-control" name="battery_charge" value="{{ $edit->pro_details->speci_battery }}">
-                    </div> --}}
+                    </div>
+
                     <div class="form-group">
                         <label>Danh Mục Sản Phẩm</label>
                         <select name="category" class="form-control input-sm m-bot15">
