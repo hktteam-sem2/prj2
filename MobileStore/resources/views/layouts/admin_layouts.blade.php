@@ -238,6 +238,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{ asset('backend/js/jquery.scrollTo.js') }}"></script>
 <!-- morris JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="{{asset('backend/js/jquery.form-validator.min.js')}}"></script>
 <script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
 <script type="text/javascript">
@@ -249,6 +250,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     CKEDITOR.replace('addcontact');
 </script>
 {{-- <script type="text/javascript" src="{{asset('js/app.js')}}"></script> --}}
+<!--Sap xep thu tu danh muc-->
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#category_order').sortable({
+            placeholder: 'ui-state-highlight',
+             update  : function(event, ui)
+              {
+                var page_id_array = new Array();
+                var _token = $('input[name="_token"]').val();
+
+                $('#category_order tr').each(function(){
+                    page_id_array.push($(this).attr("id"));
+                });
+
+                $.ajax({
+                        url:"{{url('/arrange-category')}}",
+                        method:"POST",
+                        data:{page_id_array:page_id_array,_token:_token},
+                        success:function(data)
+                        {
+                            alert(data);
+                        }
+                });
+
+              }
+        });
+
+
+    });
+</script>
+<!--End sap xep thu tu danh muc-->
 
 <!--Xu ly duyet binh luan-->
 <script type="text/javascript">
@@ -307,12 +340,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                    $('#notify_comment').html('<span class="text text-alert">Trả lời bình luận thành công</span>');
                    location.reload();
 
-{{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
+
 <script src="{{ asset('backend/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('backend/js/morris.js') }}"></script>
 <script src="{{ asset('backend/js/raphael-min.js') }}"></script>
-{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> --}}
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
 <script>
     CKEDITOR.replace('addcontact');
@@ -320,7 +353,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     CKEDITOR.replace('editdesc');
 </script>
 
-<!--Xu ly duyet binh luan-->
 <script type="text/javascript">
     $('.comment_duyet_btn').click(function(){
         var comment_status = $(this).data('comment_status');
@@ -383,8 +415,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     });
 </script>
-<!--End xu ly duyet binh luan-->
-<!-- datepicker ma giam gia -->
 <script>
     $( function() {
       $( "#start_coupon" ).datepicker({
@@ -403,9 +433,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       });
     } );
 </script>
-<!--end datepicker ma giam gia-->
 
-<!-- xu ly Gallery -->
 <script type="text/javascript">
     $(document).ready(function(){
         load_gallery();
@@ -505,9 +533,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     });
 </script>
-<!-- End xu ly Gallery -->
 
-<!-- Morris Bar -->
+
 <script>
     $(document).ready(function(){
         chart30daysorder();
@@ -581,9 +608,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     });
 </script>
-<!-- End Morris Bar -->
 
-<!-- Morris donut -->
+
+
 <script>
     $(document).ready(function(){
        var donut =  Morris.Donut({
@@ -606,9 +633,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     });
 </script>
-<!-- End Morris donut -->
 
-<!-- datepicker -->
 <script>
     $( function() {
       $( "#datepicker" ).datepicker({
@@ -627,20 +652,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       });
     } );
 </script>
-<!--  end datepicker -->
 
 
-<!-- datatable -->
+
+
 <script>
     $(document).ready( function () {
         $('#myTable').DataTable();
     } );
 </script>
-<!--  End datatable -->
 
-<!-- quan ly so luong ban ton -->
 
-    <!-- xu ly nut cap nhat  -->
+
     <script>
         $('.update_quantity_order').click(function(){
             var order_product_id = $(this).data('product_id');
@@ -761,7 +784,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	});
 	</script>
-<!-- calendar -->
+
 	<script type="text/javascript" src="{{ asset('backend/js/monthly.js') }}"></script>
 	<script type="text/javascript">
 		$(window).load( function() {
@@ -792,7 +815,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		});
 	</script>
-	<!-- //calendar -->
+
 </body>
 
 

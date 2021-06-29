@@ -14,7 +14,7 @@ class HomeController extends Controller
          //banner
          $slider = DB::table('slider')->orderByDesc('slider_id')->where('slider_status','1')->take(4)->get();
          //danh muc
-        $category = DB::table('categoryproducts')->where('category_status','1')->orderBy('category_id')->get();
+        $category = DB::table('categoryproducts')->where('category_status','1')->orderBy('category_order','ASC')->get();
         //thuong hieu
         $brand = DB::table('brandproducts')->where('brand_status','1')->orderBy('brand_id')->get();
 

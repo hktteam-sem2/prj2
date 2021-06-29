@@ -44,22 +44,32 @@
               <th style="width:30px;"></th>
             </tr>
           </thead>
-          <tbody>
+          <style type="text/css">
+            #category_order .ui-state-highlight
+             {
+              padding:24px;
+              background-color:#ffffcc;
+              border:1px dotted #ccc;
+              cursor:move;
+              margin-top:12px;
+             }
+          </style>
+          <tbody id="category_order">
             @foreach($allcategory as $all)
-                <tr>
-                <td>{{ $all->category_id }}</td>
-                <td>{{ $all->category_name }}</td>
-                <td><span class="text-ellipsis">
-                    @if($all->category_status==0)
-                        <a href="/unactive_categoryproducts/{{ $all->category_id }}"><span style="font-size: 18px; color: red"  class="fa fa-thumbs-down"></span></a>
-                    @else
-                        <a href="/active_categoryproducts/{{ $all->category_id }}"><span style="font-size: 18px; color:green"  class="fa fa-thumbs-up"></span></a>
-                    @endif
-                </span></td>
-                <td>
-                    <a href="/edit_categoryproducts/{{ $all->category_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px" class="fa fa-pencil-square-o text-success text-active"></i></a>
-                    <a onclick="return confirm('Are you sure to delete ?')" href="/delete_categoryproducts/{{ $all->category_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px"  class="fa fa-times text-danger text"></i></a>
-                </td>
+                <tr id="{{$all->category_id}}">
+                    <td>{{ $all->category_id }}</td>
+                    <td>{{ $all->category_name }}</td>
+                    <td><span class="text-ellipsis">
+                        @if($all->category_status==0)
+                            <a href="/unactive_categoryproducts/{{ $all->category_id }}"><span style="font-size: 18px; color: red"  class="fa fa-thumbs-down"></span></a>
+                        @else
+                            <a href="/active_categoryproducts/{{ $all->category_id }}"><span style="font-size: 18px; color:green"  class="fa fa-thumbs-up"></span></a>
+                        @endif
+                    </span></td>
+                    <td>
+                        <a href="/edit_categoryproducts/{{ $all->category_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px" class="fa fa-pencil-square-o text-success text-active"></i></a>
+                        <a onclick="return confirm('Are you sure to delete ?')" href="/delete_categoryproducts/{{ $all->category_id }}" class="btn btn-default" ui-toggle-class=""><i style="font-size: 25px"  class="fa fa-times text-danger text"></i></a>
+                    </td>
                 </tr>
             @endforeach
           </tbody>

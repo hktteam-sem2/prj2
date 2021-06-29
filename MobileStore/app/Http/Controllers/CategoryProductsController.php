@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\CategoryModel;
 
 class CategoryProductsController extends Controller
 {
@@ -26,6 +27,20 @@ class CategoryProductsController extends Controller
         $this->CheckAdminLogin();
         return view('admin.add_categoryproducts');
     }
+    public function arrange_category(Request $request){
+
+        $this->AuthLogin();
+
+        $data = $request->all();
+        $cate_id = $data["page_id_array"];
+
+        foreach($cate_id as $key => $value){
+            $category = CategoryModel::find($value);
+            $category->category_order = $key;
+            $category->save();
+        }
+        echo 'Updated';
+    }
     public function postadd_categoryproducts(Request $request){
         $data = array();
         $data['category_name'] = $request->category_name;
@@ -40,7 +55,7 @@ class CategoryProductsController extends Controller
     //hiển thị tất cả danh mục sản phẩm
     public function all_categoryproducts(){
         $this->CheckAdminLogin();
-        $allcategory = DB::table('categoryproducts')->get();
+        $allcategory = DB::table('categoryproducts')->orderBy('category_order','ASC')->get();
         return view('admin.all_categoryproducts')->with([
             'allcategory' => $allcategory
         ]);

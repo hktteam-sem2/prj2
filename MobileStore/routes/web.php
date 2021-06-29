@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth.roles'], function() {
     Route::get('/edit_categoryproducts/{category_id}','CategoryProductsController@edit_categoryproducts');
     Route::post('/update_categoryproducts/{category_id}','CategoryProductsController@update_categoryproducts');
     Route::get('/delete_categoryproducts/{caterory_id}','CategoryProductsController@delete_categoryproducts');
+    Route::post('/arrange-category','CategoryProductsController@arrange_category');
 });
 
 
