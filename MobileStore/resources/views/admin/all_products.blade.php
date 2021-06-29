@@ -2,17 +2,10 @@
 @section('admin_content')
 <div class="table-agile-info">
     <div class="panel panel-default">
-      <div class="panel-heading">
+        <div class="panel-heading">
         Danh sách Sản Phẩm
-      </div>
-      <div class="row w3-res-tb">
-            <div class="col-sm-5 m-b-xs">
-            </div>
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-3">
-            </div>
-            </div>
+        </div>
+        <div class="row w3-res-tb">
             <div class="table-responsive">
                 <?php
                     $message = session()->get('message');
@@ -118,8 +111,8 @@
                     @csrf
                     <input type="submit" value="Report" name="export_csv" class="btn btn-success">
                 </form>
-          </div>
-      </div>
+            </div>
+        </div>
     </div>
 </div>
 

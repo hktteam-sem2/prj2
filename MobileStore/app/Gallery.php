@@ -12,4 +12,8 @@ class Gallery extends Model
     ];
     protected $primaryKey = 'gallery_id';
     protected $table = 'gallery';
+    public function product_gal()
+    {
+        return $this->belongsTo('App\Product','product_id');
+    }
 }

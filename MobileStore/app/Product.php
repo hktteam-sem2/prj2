@@ -16,6 +16,9 @@ class Product extends Model
     public function pro_details(){
         return $this->hasOne('App\Pro_details','product_id');
      }
+     public function gallery(){
+        return $this->hasMany('App\Gallery','product_id');
+     }
      public function comment(){
         return $this->hasMany('App\Comment');
     }
