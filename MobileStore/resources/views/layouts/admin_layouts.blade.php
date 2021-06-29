@@ -403,7 +403,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       });
     } );
 </script>
-<!--  end datepicker ma giam gia -->
+<!--end datepicker ma giam gia-->
 
 <!-- xu ly Gallery -->
 <script type="text/javascript">
@@ -506,8 +506,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 </script>
 <!-- End xu ly Gallery -->
-<<<<<<< HEAD
-=======
 
 <!-- Morris Bar -->
 <script>
@@ -640,7 +638,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 <!--  End datatable -->
 
->>>>>>> master
 <!-- quan ly so luong ban ton -->
 
     <!-- xu ly nut cap nhat  -->
