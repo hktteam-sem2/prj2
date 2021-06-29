@@ -91,6 +91,7 @@ class CategoryProductsController extends Controller
         $slider = DB::table('slider')->orderByDesc('slider_id')->where('slider_status', '1')->take(4)->get();
         $category = DB::table('categoryproducts')->where('category_status','1')->orderBy('category_id')->get();
         $brand = DB::table('brandproducts')->where('brand_status','1')->orderBy('brand_id')->get();
+
         $category_by_id = DB::table('products')
         ->join('categoryproducts','products.category_id','=','categoryproducts.category_id')
         ->where('products.category_id',$category_id)->get();
