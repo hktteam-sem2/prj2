@@ -103,11 +103,12 @@
                                 <input name="qty" type="number" min="1" class="cart_product_qty_"  value="1" />
 
                             </span>
+                            <div id="product_quickview_button"></div>
+                            <div id="beforesend_quickview"></div>
                             <h4 style="font-size: 20px; color: brown;font-weight: bold;">Mô tả sản phẩm</h4>
                             <hr>
                             <p><span id="product_quickview_desc"></span></p>
-                            <div id="product_quickview_button"></div>
-                            <div id="beforesend_quickview"></div>
+
                         </div>
                     </form>
                 </div>
