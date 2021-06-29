@@ -40,10 +40,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 {{-- <script src="{{ asset('backend/js/jquery2.0.3.min.js') }}"></script> --}}
 <script src="{{ asset('backend/js/raphael-min.js') }}"></script>
 <script src="{{ asset('backend/js/morris.js') }}"></script>
-<<<<<<< HEAD
-=======
 <script src="{{ asset('backend/js/jquery.dataTables.min.js') }}"></script>
->>>>>>> master
 
 </head>
 <body>
@@ -112,19 +109,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Tổng Quan</span>
                     </a>
                 </li>
-<<<<<<< HEAD
-=======
                 @hasrole(['admin','author'])
->>>>>>> master
                 <li>
                     <a href="/information">
                         <i class="fa fa-dashboard"></i>
                         <span>Thông tin website</span>
                     </a>
                 </li>
-<<<<<<< HEAD
-
-=======
                 <li>
                     <a class="active" href="/all_customer">
                         <i class="fa fa-user"></i>
@@ -132,7 +123,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </a>
                 </li>
                 @endhasrole
->>>>>>> master
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -201,9 +191,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <li><a href="/comment">Liệt kê bình luận</a></li>
                     </ul>
                 </li>
-<<<<<<< HEAD
-
-=======
                 @hasrole(['admin'])
                 <li class="sub-menu">
                     <a href="javascript:;">
@@ -216,7 +203,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </ul>
                 </li>
                 @endhasrole
->>>>>>> master
             </ul>
         </div>
         <!-- sidebar menu end-->
@@ -321,8 +307,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                    $('#notify_comment').html('<span class="text text-alert">Trả lời bình luận thành công</span>');
                    location.reload();
 
-<<<<<<< HEAD
-=======
 {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
 <script src="{{ asset('backend/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('backend/js/morris.js') }}"></script>
@@ -393,7 +377,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                    $('#notify_comment').html('<span class="text text-alert">Trả lời bình luận thành công</span>');
                    location.reload();
 
->>>>>>> master
                 }
             });
 
@@ -401,9 +384,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 </script>
 <!--End xu ly duyet binh luan-->
-<<<<<<< HEAD
-<!--Xu ly Gallery-->
-=======
 <!-- datepicker ma giam gia -->
 <script>
     $( function() {
@@ -426,7 +406,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--  end datepicker ma giam gia -->
 
 <!-- xu ly Gallery -->
->>>>>>> master
 <script type="text/javascript">
     $(document).ready(function(){
         load_gallery();
